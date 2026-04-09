@@ -1,0 +1,17 @@
+{
+  "library": {
+    "name": "SymphonyAI Code Components",
+    "components": [
+      "./src/**/*.webflow.@(js|jsx|mjs|ts|tsx)"
+    ],
+    "description": "",
+    "id": "symphonyai-code-components"
+  },
+  "telemetry": {
+    "global": {
+      "allowTelemetry": true,
+      "lastPrompted": 1775768065673,
+      "version": "1.13.1"
+    }
+  }
+}
