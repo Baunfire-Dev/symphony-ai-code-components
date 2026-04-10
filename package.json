@@ -7,9 +7,12 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "create": "node scripts/create-component.js"
   },
   "dependencies": {
+    "fs-extra": "^11.3.4",
+    "inquirer": "^13.4.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
