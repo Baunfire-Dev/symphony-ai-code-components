@@ -1,0 +1,141 @@
+.wonderwall-card {
+    position: relative;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 430px;
+    gap: 50px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: #fff;
+    font-family: Inter, sans-serif;
+
+    .card-arrow {
+        position: absolute;
+        z-index: 2;
+        right: 15px;
+        top: 20px;
+
+        path {
+            fill: #fff;
+        }
+    }
+
+    &.dark {
+        color: #000;
+
+        .card-arrow {
+            path {
+                fill: #000;
+            }
+        }
+    }
+}
+
+.wonderwall-hover-overlay {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(26, 26, 26, 0.94);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+
+    .wonderwall-header-title {
+        color: #fff;
+    }
+}
+
+.wonderwall-card:hover .wonderwall-hover-overlay {
+  opacity: 1;
+}
+
+.wonderwall-card:hover .card-arrow {
+    path {
+        fill: #fff;
+    }
+}
+
+.wonderwall-header-title {
+    line-height: 100%;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 125%;
+}
+
+.wonderwall-title {
+    line-height: 100%;
+    margin: 0;
+    font-size: 77px;
+    line-height: 106%;
+}
+
+.wonderwall-subtitle {
+    line-height: 100%;
+    margin: 0;
+    font-size: 30px;
+    line-height: 115%;
+}
+
+.wonderwall-description {
+    line-height: 100%;
+    margin: 0;
+    font-size: 18px;
+    line-height: 125%;
+}
+
+.card-link {
+    display: flex;
+    gap: 10px;
+    font-size: 15px;
+    margin: 0;
+}
+
+.footer-person {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 137%;
+}
+
+@media (min-width: 1235px) {
+    .wonderwall-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 564px;
+        gap: 24px;
+        padding: 25px;
+
+        .card-arrow {
+            right: 25px;
+            top: 25px;
+        }
+    }
+    .wonderwall-header-title {
+        font-size: 24px;
+    }
+    .wonderwall-title {
+        font-size: 102px;
+    }
+    .wonderwall-subtitle {
+        font-size: 42px;
+    }
+    .wonderwall-description {
+        font-size: 24px;
+    }
+    .card-link {
+        font-size: 20px;
+    }
+}
