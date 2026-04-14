@@ -15,13 +15,19 @@ export default declareComponent(Heading, {
     appearance: props.Variant({
       name: "Appearance",
       defaultValue: "",
-      options: ["h1", "h2", "h3", "h4", "h5", "h6", "Callout Text"],
+      options: ["None", "h1", "h2", "h3", "h4", "h5", "h6", "Callout Text"],
       helpText: "Select heading appearance",
     }),
     text: props.Text({
       name: "Text",
       defaultValue: "Heading",
       helpText: "",
+    }),
+    align: props.Variant({
+      name: "Text Alignment",
+      defaultValue: "left",
+      options: ["left", "center", "right"],
+      helpText: "Align heading text",
     }),
   },
 });
