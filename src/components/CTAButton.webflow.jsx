@@ -6,15 +6,15 @@ export default declareComponent(CTAButton, {
   name: 'CTAButton',
   description: '',
   props: {
-    variant: props.Option({
+    variant: props.Variant({
       name: "Variant",
       defaultValue: "Primary",
-      options: ["Primary", "Secondary"],
+      options: ["White", "Blue", "Teal", "Yellow"],
       helpText: "Select button style variant",
     }),
     text: props.Text({
       name: "Button Text",
-      defaultValue: "",
+      defaultValue: "Text Link",
       helpText: "Text displayed inside the button",
     }),
     link: props.Link({

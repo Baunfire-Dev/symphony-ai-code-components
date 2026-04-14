@@ -6,21 +6,21 @@ export default declareComponent(Heading, {
   name: "Heading",
   description: "",
   props: {
-    tag: props.Option({
+    tag: props.Variant({
       name: "Tag",
       defaultValue: "h1",
       options: ["h1", "h2", "h3", "h4", "h5", "h6"],
       helpText: "Select heading level",
     }),
-    appearance: props.Option({
+    appearance: props.Variant({
       name: "Appearance",
       defaultValue: "",
-      options: ["h1", "h2", "h3", "h4", "h5", "h6"],
+      options: ["h1", "h2", "h3", "h4", "h5", "h6", "Callout Text"],
       helpText: "Select heading appearance",
     }),
     text: props.Text({
       name: "Text",
-      defaultValue: "",
+      defaultValue: "Heading",
       helpText: "",
     }),
   },

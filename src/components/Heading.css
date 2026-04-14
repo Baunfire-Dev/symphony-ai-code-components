@@ -1,0 +1,51 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: Inter, sans-serif;
+    margin: 0;
+    font-weight: 500;
+}
+
+h1,
+.h1 {
+    font-size: var(--_size---type--h1);
+    line-height: 120%;
+}
+
+h2,
+.h2 {
+    font-size: var(--_size---type--h2);
+    line-height: 120%;
+}
+
+h3,
+.h3 {
+    font-size: var(--_size---type--h3);
+    line-height: 120%;
+}
+
+h4,
+.h4 {
+    font-size: var(--_size---type--h4);
+    line-height: 140%;
+}
+
+h5,
+.h5 {
+    font-size: var(--_size---type--h5);
+    line-height: 140%;
+}
+
+h6,
+.h6 {
+    font-size: var(--_size---type--h6);
+    line-height: 140%;
+}
+
+.callout-text {
+    font-size: var(--_size---type--callout-text);
+    line-height: 120%;
+}

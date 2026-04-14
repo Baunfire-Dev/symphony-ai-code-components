@@ -7,7 +7,8 @@ function capitalize(str) {
 }
 
 function getComponentTemplate(name) {
-  return `export const ${name} = ({ text }) => {
+  return `import './${name}.css';
+export const ${name} = ({ text }) => {
   return (
     <div>
     </div>
@@ -58,6 +59,11 @@ async function run() {
   await fs.writeFile(
     path.join(dir, `${name}.webflow.jsx`),
     getWebflowTemplate(name)
+  );
+
+  await fs.writeFile(
+    path.join(dir, `${name}.css`),
+    ""
   );
 
   console.log(`Created ${name} in src/components`);
