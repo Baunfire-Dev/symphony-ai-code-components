@@ -22,7 +22,7 @@
     }
 
     &.blue {
-        color: var(--_colors---white);
+        color: var(--_colors---dark-gray);
         background-color: var(--_colors---blue);
         border: 1px solid var(--_colors---blue);
 
