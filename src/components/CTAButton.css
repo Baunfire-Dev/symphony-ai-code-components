@@ -6,6 +6,9 @@
     text-decoration: none;
     font-weight: 700;
     font-size: var(--_size---type--button);
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
 
     &.white {
         color: var(--_colors---dark-gray);
