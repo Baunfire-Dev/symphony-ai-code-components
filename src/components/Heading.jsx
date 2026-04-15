@@ -18,7 +18,8 @@ export const Heading = ({ textColor = "Default", tag: Tag = "h1", text, appearan
     "Blue" : "blue",
     "Yellow" : "yellow",
     "Light Purple" : "light-purple",
-    "Magenta" : "magenta"
+    "Magenta" : "magenta",
+    "Light Blue" : "light-blue"
   }
 
   const headingAppearance = appearance && appearance !== "None" ? (appearanceMap[appearance] || appearance) : null;

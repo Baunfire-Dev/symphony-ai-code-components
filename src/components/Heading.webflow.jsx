@@ -9,7 +9,7 @@ export default declareComponent(Heading, {
     textColor: props.Variant({
       name: "Text Color",
       defaultValue: "Default",
-      options: ["Default", "White", "Teal", "Blue", "Yellow", "Light Purple", "Magenta"],
+      options: ["Default", "White", "Teal", "Blue", "Yellow", "Light Purple", "Magenta", "Light Blue"],
       helpText: "Select text color",
     }),
     tag: props.Variant({

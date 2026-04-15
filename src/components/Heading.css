@@ -32,6 +32,10 @@ h6 {
     &.magenta {
         color: var(--_colors---magenta);
     }
+
+    &.light-blue {
+        color: var(--_colors---light-blue);
+    }
 }
 
 h1,
