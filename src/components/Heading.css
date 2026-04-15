@@ -7,6 +7,31 @@ h6 {
     font-family: Inter, sans-serif;
     margin: 0;
     font-weight: 500;
+    color: var(--_colors---dark-gray);
+
+    &.white {
+        color: var(--_colors---white);
+    }
+
+    &.teal {
+        color: var(--_colors---teal);
+    }
+
+    &.blue {
+        color: var(--_colors---blue);
+    }
+
+    &.yellow {
+        color: var(--_colors---yellow);
+    }
+
+    &.light-purple {
+        color: var(--_colors---light-purple);
+    }
+
+    &.magenta {
+        color: var(--_colors---magenta);
+    }
 }
 
 h1,
