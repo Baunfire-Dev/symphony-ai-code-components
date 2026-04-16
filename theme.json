@@ -1,7 +1,7 @@
 {
   "colors": {
-    "teal":"#05d3ab",
-    "blue":"#0074e8",
-    "yellow":"#ffb600"
+    "teal":"var(--_colors---teal)",
+    "blue":"var(--_colors---blue)",
+    "yellow":"var(--_colors---yellow)"
   }
 }
