@@ -6,6 +6,12 @@ export default declareComponent(Heading, {
   name: "Heading",
   description: "",
   props: {
+    textColor: props.Variant({
+      name: "Text Color",
+      defaultValue: "Default",
+      options: ["Default", "White", "Teal", "Blue", "Yellow", "Light Purple", "Magenta", "Light Blue"],
+      helpText: "Select text color",
+    }),
     tag: props.Variant({
       name: "Tag",
       defaultValue: "h1",

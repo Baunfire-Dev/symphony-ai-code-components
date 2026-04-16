@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "tw": "npx tailwindcss -i src/css/tailwind.css -o src/css/styles.css --postcss --watch --poll --minify",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
@@ -24,10 +25,13 @@
     "@webflow/data-types": "^1.2.2",
     "@webflow/react": "^1.2.2",
     "@webflow/webflow-cli": "^1.13.1",
+    "autoprefixer": "^10.5.0",
     "eslint": "^9.39.4",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.4.0",
+    "postcss": "^8.5.10",
+    "tailwindcss": "^3.4.19",
     "vite": "^8.0.4"
   },
   "overrides": {

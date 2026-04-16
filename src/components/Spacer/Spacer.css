@@ -1,0 +1,39 @@
+.xxl {
+    height: var(--_size---spacing--xxl);
+}
+
+.xl {
+    height: var(--_size---spacing--xl);
+}
+
+.lg {
+    height: var(--_size---spacing--l);
+}
+
+.med {
+    height: var(--_size---spacing--m);
+}
+
+.sm {
+    height: var(--_size---spacing--s);
+}
+
+.xs {
+    height: var(--_size---spacing--xs);
+}
+
+.xxs {
+    height: var(--_size---spacing--xxs);
+}
+
+.xxxs {
+    height: var(--_size---spacing--xxxs);
+}
+
+.xxxxs {
+    height: var(--_size---spacing--xxxxs);
+}
+
+.none {
+    height: var(--_size---spacing--none);
+}

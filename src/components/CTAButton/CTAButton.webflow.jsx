@@ -8,8 +8,8 @@ export default declareComponent(CTAButton, {
   props: {
     variant: props.Variant({
       name: "Variant",
-      defaultValue: "Primary",
-      options: ["White", "Blue", "Teal", "Yellow"],
+      defaultValue: "White",
+      options: ["White", "Blue", "Teal", "Yellow", "Light Blue"],
       helpText: "Select button style variant",
     }),
     text: props.Text({

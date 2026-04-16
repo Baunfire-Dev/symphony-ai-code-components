@@ -53,4 +53,15 @@
             background-color: transparent;
         }
     }
+
+    &.light-blue {
+        color: var(--_colors---dark-gray);
+        background-color: var(--_colors---light-blue);
+        border: 1px solid var(--_colors---light-blue);
+
+        &:hover {
+            color: var(--_colors---light-blue);
+            background-color: transparent;
+        }
+    }
 }
