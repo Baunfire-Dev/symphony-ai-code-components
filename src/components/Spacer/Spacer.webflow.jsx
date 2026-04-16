@@ -1,9 +1,9 @@
-import { Spacing } from './Spacing';
+import { Spacer } from './Spacer';
 import { props } from '@webflow/data-types';
 import { declareComponent } from '@webflow/react';
 
-export default declareComponent(Spacing, {
-  name: 'Spacing',
+export default declareComponent(Spacer, {
+  name: 'Spacer',
   description: '',
   props: {
     spacingSize: props.Variant({
