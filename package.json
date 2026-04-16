@@ -9,7 +9,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "create": "node scripts/create-component.js"
+    "create": "node scripts/create-component.js",
+    "wf-share": "npx webflow library share"
   },
   "dependencies": {
     "fs-extra": "^11.3.4",

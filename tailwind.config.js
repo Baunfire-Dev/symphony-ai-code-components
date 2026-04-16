@@ -1,3 +1,4 @@
+const theme = require("./theme.json");
 export default {
   corePlugins: {
     preflight: false,
@@ -6,8 +7,16 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  safelist:[
+    "text-teal",
+    "text-white",
+    "text-blue",
+    "text-yellow"
+  ],
   theme: {
-    extend: {},
+    extend: {
+      colors:theme.colors
+    },
   },
   plugins: [],
 }
