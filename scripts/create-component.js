@@ -47,7 +47,7 @@ async function run() {
 
   const name = capitalize(componentName.trim());
   
-  const dir = path.join(process.cwd(), "src", "components");
+  const dir = path.join(process.cwd(), "src", "components", name);
 
   await fs.ensureDir(dir);
 
