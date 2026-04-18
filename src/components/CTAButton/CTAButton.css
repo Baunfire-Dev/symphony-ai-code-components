@@ -32,6 +32,17 @@
         }
     }
 
+    &.light-purple {
+        color: var(--_colors---white);
+        background-color: var(--_colors---light-purple);
+        border: 1px solid var(--_colors---light-purple);
+
+        &:hover {
+            color: var(--_colors---light-purple);
+            background-color: transparent;
+        }
+    }
+
     &.teal {
         color: var(--_colors---dark-gray);
         background-color: var(--_colors---teal);
