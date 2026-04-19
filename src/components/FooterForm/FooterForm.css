@@ -1,0 +1,19 @@
+.industry-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    padding: 12px 34px 12px 24px;
+
+    background-image: url("../../assets/arrow.svg");
+    background-repeat: no-repeat;
+    background-position: right 24px center;
+    background-size: 12px;
+
+    font-family: Inter, sans-serif;
+    font-size: var(--_size---type--button);
+    font-weight: 700;
+    line-height: normal;
+
+    @apply rounded-[0.3125rem];
+}

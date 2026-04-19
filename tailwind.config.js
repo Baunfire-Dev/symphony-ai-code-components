@@ -3,7 +3,7 @@ export default {
   corePlugins: {
     preflight: false,
   },
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx,css}"],
   safelist: ["text-teal", "text-white", "text-blue", "text-yellow"],
   theme: {
     extend: {
