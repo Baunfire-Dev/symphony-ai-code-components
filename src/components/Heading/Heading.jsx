@@ -1,6 +1,6 @@
 import './Heading.css'
 
-export const Heading = ({ textColor = "Default", tag: Tag = "h1", text, appearance, align = "left" }) => {
+export const Heading = ({ isVisible, textColor = "Default", tag: Tag = "h1", text, appearance, align = "left" }) => {
   const appearanceMap = {
     "Callout Text": "callout-text",
   };
@@ -25,5 +25,5 @@ export const Heading = ({ textColor = "Default", tag: Tag = "h1", text, appearan
   const headingAppearance = appearance && appearance !== "None" ? (appearanceMap[appearance] || appearance) : null;
   const alignment = alignmentMap[align];
 
-  return <Tag className={[headingAppearance, alignment, textColorMap[textColor]].filter(Boolean).join(" ")}>{text}</Tag>;
+  return <Tag className={[headingAppearance, alignment, textColorMap[textColor], !isVisible ? "hidden" : ""].filter(Boolean).join(" ")}>{text}</Tag>;
 };

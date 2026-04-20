@@ -14,21 +14,21 @@ export default declareComponent(ResourceCard, {
     eyebrow: props.Text({
       name: "Eyebrow",
       defaultValue: "Eyebrow",
-      helpText: "",
+      tooltip: "",
     }),
     heading: props.Text({
       name: "Heading",
       defaultValue: "Heading",
-      helpText: "",
+      tooltip: "",
     }),
     link: props.Link({
       name: "Link",
-      helpText: "Link destination",
+      tooltip: "Link destination",
     }),
     ctaText: props.Text({
       name: "CTA Text",
       defaultValue: "CTA Text",
-      helpText: "",
+      tooltip: "",
     }),
   },
 });

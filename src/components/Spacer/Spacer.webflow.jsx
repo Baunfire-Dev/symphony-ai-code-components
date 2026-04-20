@@ -10,7 +10,7 @@ export default declareComponent(Spacer, {
       name: "Spacing Size",
       defaultValue: "none",
       options: ["none", "xxl", "xl", "lg", "med", "sm", "xs", "xxs", "xxxs", "xxxxs"],
-      helpText: "Select heading level",
+      tooltip: "Select heading level",
     }),
   },
 });

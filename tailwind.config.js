@@ -21,7 +21,7 @@ export default {
           "letter-spacing": "inherit",
           "font-family": "inherit",
           "text-align": "inherit",
-        },
+        }
       });
     },
   ],

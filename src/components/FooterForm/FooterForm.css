@@ -3,17 +3,17 @@
     -webkit-appearance: none;
     -moz-appearance: none;
 
-    padding: 12px 34px 12px 24px;
+    padding: 12px 49px 12px 24px;
 
     background-image: url("../../assets/arrow.svg");
     background-repeat: no-repeat;
     background-position: right 24px center;
-    background-size: 12px;
+    background-size: 15px;
 
     font-family: Inter, sans-serif;
     font-size: var(--_size---type--button);
     font-weight: 700;
     line-height: normal;
 
-    @apply rounded-[0.3125rem];
+    @apply w-full rounded-[0.3125rem] border-0 outline-none focus:ring-0;
 }

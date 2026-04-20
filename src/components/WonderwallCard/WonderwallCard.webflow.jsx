@@ -9,8 +9,8 @@ export default declareComponent(WonderwallCard, {
   props: {
     cardColor: props.Variant({
       name: "Card Color",
-      options: [ "Black", "Teal", "Blue", "Yellow", "Orange", "Purple" ],
-      defaultValue: "Black",
+      options: [ "None", "Dark Gray", "Teal", "Blue", "Yellow", "Orange", "Purple" ],
+      defaultValue: "None",
     }),
     theme: props.Variant({
       name: "Theme",
@@ -26,6 +26,12 @@ export default declareComponent(WonderwallCard, {
       defaultValue: "Text",
       group: "Header",
     }),
+    iconColor: props.Variant({
+      name: "Icon Color",
+      options: [ "Dark Gray", "Teal", "Blue", "Yellow", "Orange", "Purple" ],
+      defaultValue: "Dark Gray",
+      group: "Header",
+    }),
     headerText: props.Text({
       name: "Header Text",
       group: "Header",
@@ -38,20 +44,20 @@ export default declareComponent(WonderwallCard, {
       name: "Title",
       group: "Content",
       defaultValue: "",
-      helpText: "",
+      tooltip: "",
     }),
     subtitle: props.Text({
       name: "Subtitle",
       group: "Content",
       defaultValue: "",
-      helpText: "",
+      tooltip: "",
     }),
     description: props.TextNode({
       name: "Description",
       group: "Content",
       multiline: true,
       defaultValue: "",
-      helpText: "",
+      tooltip: "",
     }),
     footerLayout: props.Variant({
       name: "Footer Layout",

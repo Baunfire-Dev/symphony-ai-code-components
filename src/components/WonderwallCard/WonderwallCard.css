@@ -12,6 +12,7 @@
     padding-bottom: 20px;
     color: #fff;
     font-family: Inter, sans-serif;
+    z-index: 2;
 
     .card-arrow {
         position: absolute;
@@ -48,10 +49,6 @@
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
-
-    .wonderwall-header-title {
-        color: #fff;
-    }
 }
 
 .wonderwall-card:hover .wonderwall-hover-overlay {
@@ -70,6 +67,7 @@
     font-size: 18px;
     font-weight: 700;
     line-height: 125%;
+    color: #fff
 }
 
 .wonderwall-title {

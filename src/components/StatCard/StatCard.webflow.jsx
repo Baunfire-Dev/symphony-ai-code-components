@@ -10,7 +10,7 @@ export default declareComponent(StatCard, {
       name: "Stat",
       group:"Content",
       defaultValue: "",
-      helpText: "",
+      tooltip: "",
     }),
     text: props.RichText({
       name:"Text",

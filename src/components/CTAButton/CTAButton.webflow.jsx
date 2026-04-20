@@ -6,20 +6,25 @@ export default declareComponent(CTAButton, {
   name: 'CTAButton',
   description: '',
   props: {
+    isVisible: props.Visibility({
+      name: "Visible",
+      group: "Display",
+      defaultValue: true
+    }),
     variant: props.Variant({
       name: "Variant",
       defaultValue: "White",
       options: ["White", "Blue", "Teal", "Yellow", "Light Blue", "Light Purple"],
-      helpText: "Select button style variant",
+      tooltip: "Select button style variant",
     }),
     text: props.Text({
       name: "Button Text",
       defaultValue: "Text Link",
-      helpText: "Text displayed inside the button",
+      tooltip: "Text displayed inside the button",
     }),
     link: props.Link({
       name: "Link",
-      helpText: "Link destination",
+      tooltip: "Link destination",
     }),
   },
 });

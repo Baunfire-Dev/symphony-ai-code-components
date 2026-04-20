@@ -10,7 +10,7 @@ export default declareComponent(Background, {
       name: "Type",
       defaultValue: "Image",
       options: ["Image", "Video"],
-      helpText: "Select background type",
+      tooltip: "Select background type",
     }),
     image: props.Image({
       name: "Image",
@@ -18,7 +18,7 @@ export default declareComponent(Background, {
     videoURL: props.Text({
       name: "Video URL",
       defaultValue: "",
-      helpText: "",
+      tooltip: "Enter a direct link to an MP4 video file (e.g., a direct Vimeo MP4 URL). Other page links are not supported.",
     }),
   },
 });

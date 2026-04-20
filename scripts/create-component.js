@@ -29,7 +29,7 @@ export default declareComponent(${name}, {
     text: props.Text({
       name: "Text",
       defaultValue: "",
-      helpText: "",
+      tooltip: "",
     })
   },
 });

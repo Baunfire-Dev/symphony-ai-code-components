@@ -10,7 +10,7 @@ export default declareComponent(FooterForm, {
       name: "Industry",
       defaultValue: "",
       options: ["Choose an industry", "Retail / CPG", "Financial Services", "Industrial", "Media", "Enterprise IT"],
-      helpText: "Select industry",
+      tooltip: "Select industry",
     })
   },
 });

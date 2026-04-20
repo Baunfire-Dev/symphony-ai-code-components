@@ -1,6 +1,7 @@
 import './CTAButton.css'
 
 export const CTAButton = ({
+  isVisible,
   text,
   link,
   variant = "White",
@@ -13,8 +14,9 @@ export const CTAButton = ({
     "Light Blue" : "light-blue",
     "Light Purple" : "light-purple"
   }
+
   return (
-    <a href={link?.href} target={link?.target ?? "_self"} className={`btn ${buttonVariant[variant]}`}>
+    <a href={link?.href} target={link?.target ?? "_self"} className={`btn ${buttonVariant[variant]} ${!isVisible ? "hidden" : ""}`}>
       {text}
     </a>
   );

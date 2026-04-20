@@ -15,7 +15,7 @@ export default declareComponent(VideoEmbed, {
     videoId: props.Text({
       name: "Video ID",
       defaultValue: "",
-      helpText: "Enter the YouTube or Vimeo video ID",
+      tooltip: "Enter the YouTube or Vimeo video ID",
     })
   },
 });
