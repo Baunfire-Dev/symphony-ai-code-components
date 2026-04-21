@@ -1,0 +1,47 @@
+.icon-card {
+  padding: 1.25rem;
+  border-radius: 10px;
+  background-color: var(--_colors---gray);
+  color: var(--_colors---white);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+
+  img {
+    width: 2.5rem;
+    height: 2.5rem;
+    object-fit: contain;
+  }
+
+  p,
+  h5 {
+    margin: 0;
+  }
+
+  h5 {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 700;
+  }
+
+  p {
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.225rem;
+    opacity: 0.8;
+  }
+
+  @media (min-width: 768px) {
+    &.one-half,
+    &.one-third {
+      width: calc(50% - 3rem);
+    }
+  }
+  
+  @media (min-width: 992px) {
+    &.one-third {
+      width: calc(33.33% - 3.167rem);
+    }
+  }
+}
