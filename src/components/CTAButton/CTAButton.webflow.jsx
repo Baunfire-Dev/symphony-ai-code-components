@@ -14,7 +14,7 @@ export default declareComponent(CTAButton, {
     variant: props.Variant({
       name: "Variant",
       defaultValue: "White",
-      options: ["White", "Blue", "Teal", "Yellow", "Light Blue", "Light Purple"],
+      options: ["Primary", "White", "Blue", "Teal", "Yellow", "Light Blue", "Light Purple", "Magenta"],
       tooltip: "Select button style variant",
     }),
     text: props.Text({

@@ -4,7 +4,7 @@ export default {
     preflight: false,
   },
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx,css}"],
-  safelist: ["text-teal", "text-white", "text-blue", "text-yellow"],
+  safelist: ["text-teal", "text-white", "text-blue", "text-yellow", "text-light-purple", "text-magenta"],
   theme: {
     extend: {
       colors: theme.colors,

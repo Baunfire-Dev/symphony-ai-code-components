@@ -2,6 +2,8 @@
   "colors": {
     "teal":"var(--_colors---teal)",
     "blue":"var(--_colors---blue)",
-    "yellow":"var(--_colors---yellow)"
+    "yellow":"var(--_colors---yellow)",
+    "light-purple": "var(--_colors---light-purple)",
+    "magenta": "var(--_colors---magenta)"
   }
 }

@@ -19,7 +19,7 @@ export default declareComponent(StatCard, {
     variant: props.Variant({
       name:"Variant",
       defaultValue:"Teal",
-      options:["White","Blue","Teal","Yellow"]
+      options:["White","Blue","Teal","Yellow","Light Purple", "Magenta"]
     })
   },
 });
