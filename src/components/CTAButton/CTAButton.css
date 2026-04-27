@@ -1,117 +1,169 @@
 .btn {
-    padding: 12px 24px;
-    border-radius: 99999px;
-    font-family: Inter, sans-serif;
-    transition: all 0.25s ease-in-out;
-    text-decoration: none;
-    font-weight: 500;
-    line-height: 100%;
-    font-size: var(--_size---type--button);
-    display: flex;
-    justify-content: center;
-    flex-shrink: 0;
-    position: relative;
+	padding: 12px 24px;
+	border-radius: 99999px;
+	font-family: Inter, sans-serif;
+	transition: all 0.25s ease-in-out;
+	text-decoration: none;
+	font-weight: 500;
+	line-height: 100%;
+	font-size: var(--_size---type--button);
+	display: flex;
+	justify-content: center;
+	flex-shrink: 0;
+	position: relative;
 
-    span {
-        position: relative;
-        z-index: 2;
-    }
+	span {
+		position: relative;
+		z-index: 2;
+	}
 
-    &.primary {
-        color: var(--_colors---white);
-        background-color: var(--_colors---blue);
+	&.primary {
+		color: var(--_colors---white);
+		background-color: var(--_colors---blue);
 
-        &::before {
-            background: radial-gradient(123.36% 233.52% at 50% 140.91%, #0074e8 31%, #250144 100%);
-            border-radius: 24px;
-            box-shadow: inset 0 1px 1px 0 hsla(0, 0%, 100%, .25);
-            content: "";
-            inset: 0;
-            opacity: 0;
-            position: absolute;
-            transition: opacity .3s ease-in-out;
-            z-index: 1;
-        }
+		&::before {
+			background: radial-gradient(
+				123.36% 233.52% at 50% 140.91%,
+				#0074e8 31%,
+				#250144 100%
+			);
+			border-radius: 24px;
+			box-shadow: inset 0 1px 1px 0 hsla(0, 0%, 100%, 0.25);
+			content: "";
+			inset: 0;
+			opacity: 0;
+			position: absolute;
+			transition: opacity 0.3s ease-in-out;
+			z-index: 1;
+		}
 
-        &:hover::before {
-            opacity: 1;
-        }
-    }
+		&:hover::before {
+			opacity: 1;
+		}
+	}
 
-    &.white {
-        color: var(--_colors---dark-gray);
-        background-color: var(--_colors---white);
-        border: 1px solid var(--_colors---white);
+	&.white {
+		color: var(--_colors---dark-gray);
+		background-color: var(--_colors---white);
+		border: 1px solid var(--_colors---white);
 
-        &:hover {
-            color: var(--_colors---white);
-            background-color: transparent;
-        }
-    }
+		&:hover {
+			color: var(--_colors---white);
+			background-color: transparent;
+		}
+	}
 
-    &.blue {
-        color: var(--_colors---white);
-        background-color: var(--_colors---blue);
-        border: 1px solid var(--_colors---blue);
+	&.blue {
+		color: var(--_colors---white);
+		background-color: var(--_colors---blue);
+		border: 1px solid var(--_colors---blue);
 
-        &:hover {
-            color: var(--_colors---blue);
-            background-color: transparent;
-        }
-    }
+		&:hover {
+			color: var(--_colors---blue);
+			background-color: transparent;
+		}
+	}
 
-    &.light-purple {
-        color: var(--_colors---white);
-        background-color: var(--_colors---light-purple);
-        border: 1px solid var(--_colors---light-purple);
+	&.light-purple {
+		color: var(--_colors---white);
+		background-color: var(--_colors---light-purple);
+		border: 1px solid var(--_colors---light-purple);
 
-        &:hover {
-            color: var(--_colors---light-purple);
-            background-color: transparent;
-        }
-    }
+		&:hover {
+			color: var(--_colors---light-purple);
+			background-color: transparent;
+		}
+	}
 
-    &.teal {
-        color: var(--_colors---dark-gray);
-        background-color: var(--_colors---teal);
-        border: 1px solid var(--_colors---teal);
+	&.teal {
+		color: var(--_colors---dark-gray);
+		background-color: var(--_colors---teal);
+		border: 1px solid var(--_colors---teal);
 
-        &:hover {
-            color: var(--_colors---teal);
-            background-color: transparent;
-        }
-    }
+		&:hover {
+			color: var(--_colors---teal);
+			background-color: transparent;
+		}
+	}
 
-    &.yellow {
-        color: var(--_colors---dark-gray);
-        background-color: var(--_colors---yellow);
-        border: 1px solid var(--_colors---yellow);
+	&.yellow {
+		color: var(--_colors---dark-gray);
+		background-color: var(--_colors---yellow);
+		border: 1px solid var(--_colors---yellow);
 
-        &:hover {
-            color: var(--_colors---yellow);
-            background-color: transparent;
-        }
-    }
+		&:hover {
+			color: var(--_colors---yellow);
+			background-color: transparent;
+		}
+	}
 
-    &.light-blue {
-        color: var(--_colors---dark-gray);
-        background-color: var(--_colors---light-blue);
-        border: 1px solid var(--_colors---light-blue);
+	&.light-blue {
+		color: var(--_colors---dark-gray);
+		background-color: var(--_colors---light-blue);
+		border: 1px solid var(--_colors---light-blue);
 
-        &:hover {
-            color: var(--_colors---light-blue);
-            background-color: transparent;
-        }
-    }
+		&:hover {
+			color: var(--_colors---light-blue);
+			background-color: transparent;
+		}
+	}
 
-    &.magenta {
-        color: var(--_colors---dark-gray);
-        background-color: var(--_colors---magenta);
-        border: 1px solid var(--_colors---magenta);
+	&.magenta {
+		color: var(--_colors---dark-gray);
+		background-color: var(--_colors---magenta);
+		border: 1px solid var(--_colors---magenta);
 
-        &:hover {
-            color: var(--_colors---magenta);
-            background-color: transparent;
-        }
-    }
+		&:hover {
+			color: var(--_colors---magenta);
+			background-color: transparent;
+		}
+	}
+
+	&.glass {
+		color: var(--_colors---white);
+		position: relative;
+		background: linear-gradient(
+			93deg,
+			hsla(0, 0%, 100%, 0.22) 0.29%,
+			hsla(0, 0%, 100%, 0.14) 101.78%
+		);
+
+		&::before,
+		&::after {
+			content: "";
+			inset: 0;
+			position: absolute;
+			border-radius: inherit;
+		}
+
+		span {
+			position: relative;
+			z-index: 3;
+		}
+
+		&::before {
+			background: linear-gradient(
+				90deg,
+				hsla(0, 0%, 100%, 0.54),
+				hsla(0, 0%, 100%, 0)
+			);
+			mask: linear-gradient(#000 0 0) content-box,
+				linear-gradient(#000 0 0);
+			mask-composite: exclude;
+			padding: 1px;
+			pointer-events: none;
+		}
+
+		&::after {
+			opacity: 0;
+			transition: all 0.3s ease;
+			background: rgba(255, 255, 255, 0.1);
+		}
+
+		&:hover {
+			&::after {
+				opacity: 1;
+			}
+		}
+	}
 }

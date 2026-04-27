@@ -14,7 +14,8 @@ export const CTAButton = ({
     "Yellow" : "yellow",
     "Light Blue" : "light-blue",
     "Light Purple" : "light-purple",
-    "Magenta" : "magenta"
+    "Magenta" : "magenta",
+    "Glass" : "glass"
   }
 
   return (
