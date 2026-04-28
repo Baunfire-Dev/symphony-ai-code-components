@@ -1,0 +1,13 @@
+.sv2-eureka-step-item {
+    p {
+        @apply my-0;
+
+        &.title {
+            font-size: var(--_size---type--h3);
+        }
+
+        &.subtext {
+            font-size: var(--_size---type--paragraph-default);
+        }
+    }
+}
