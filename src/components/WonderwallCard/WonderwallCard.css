@@ -74,12 +74,14 @@
     line-height: 100%;
     margin: 0;
     font-size: 77px;
+    font-weight: 500;
     line-height: 106%;
 }
 
 .wonderwall-subtitle {
     line-height: 100%;
     margin: 0;
+    font-weight: 600;
     font-size: 30px;
     line-height: 115%;
 }
@@ -87,6 +89,7 @@
 .wonderwall-description {
     line-height: 100%;
     margin: 0;
+    font-weight: 500;
     font-size: 18px;
     line-height: 125%;
 }
@@ -94,6 +97,7 @@
 .card-link {
     display: flex;
     gap: 10px;
+    font-weight: 600;
     font-size: 15px;
     margin: 0;
 }

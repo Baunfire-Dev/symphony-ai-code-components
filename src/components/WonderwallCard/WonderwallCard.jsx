@@ -48,7 +48,7 @@ export const WonderwallCard = ({
           )}
           {headerType === "Text" && (
             <div style={{borderLeft: "1px solid rgba(255,255,255,0.7)"}} className="flex items-center gap-[10px] bg-[linear-gradient(103deg,_rgba(255,255,255,0.30)_-16.2%,_rgba(255,255,255,0.02)_69.25%)] border border-white rounded-[1000px] backdrop-blur-[2.8px] pt-[10px] pr-[20px] pl-[16px] pb-[10px]">
-              <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38" fill="none">
+              <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38" fill="none" className='w-[32px] h-[32px]'>
                 <circle cx="19" cy="19" r="19" fill="white"/>
                 <path d="M9.05396 28.0811V10.7838H18.9999V14.6276H28.9458V28.0811H9.05396ZM11.0431 26.1592H17.0107V24.2372H11.0431V26.1592ZM11.0431 22.3153H17.0107V20.3934H11.0431V22.3153ZM11.0431 18.4715H17.0107V16.5495H11.0431V18.4715ZM11.0431 14.6276H17.0107V12.7057H11.0431V14.6276ZM18.9999 26.1592H26.9567V16.5495H18.9999V26.1592ZM20.9891 20.3934V18.4715H24.9675V20.3934H20.9891ZM20.9891 24.2372V22.3153H24.9675V24.2372H20.9891Z" fill={iconColors[iconColor] || "#1a1a1a"}/>
               </svg>
@@ -99,7 +99,7 @@ export const WonderwallCard = ({
           )}
           {headerType === "Text" && (
             <div style={{borderLeft: "1px solid rgba(255,255,255,0.7)"}} className="flex items-center gap-[10px] bg-[linear-gradient(103deg,_rgba(255,255,255,0.30)_-16.2%,_rgba(255,255,255,0.02)_69.25%)] border border-white rounded-[1000px] backdrop-blur-[2.8px] pt-[10px] pr-[20px] pl-[16px] pb-[10px]">
-              <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38" fill="none">
+              <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38" fill="none" className='w-[32px] h-[32px]'>
                 <circle cx="19" cy="19" r="19" fill="#1a1a1a"/>
                 <path d="M9.05396 28.0811V10.7838H18.9999V14.6276H28.9458V28.0811H9.05396ZM11.0431 26.1592H17.0107V24.2372H11.0431V26.1592ZM11.0431 22.3153H17.0107V20.3934H11.0431V22.3153ZM11.0431 18.4715H17.0107V16.5495H11.0431V18.4715ZM11.0431 14.6276H17.0107V12.7057H11.0431V14.6276ZM18.9999 26.1592H26.9567V16.5495H18.9999V26.1592ZM20.9891 20.3934V18.4715H24.9675V20.3934H20.9891ZM20.9891 24.2372V22.3153H24.9675V24.2372H20.9891Z" fill="#ffffff"/>
               </svg>
