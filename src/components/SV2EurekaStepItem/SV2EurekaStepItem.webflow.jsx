@@ -7,16 +7,17 @@ export default declareComponent(SV2EurekaStepItem, {
   description: '',
   group: 'SV2 Eureka Step',
   props: {
+    reverse: props.Boolean({
+      name: "Reverse",
+      defaultValue: false
+    }),
     title: props.Text({
       name: "Title",
       defaultValue: "",
       tooltip: "",
     }),
-    description: props.TextNode({
-      name: "Description",
-      multiline: true,
-      defaultValue: "",
-      tooltip: "",
+    description: props.RichText({
+      name: "Description"
     }),
     type: props.Variant({
       name: "Type",

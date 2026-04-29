@@ -1,4 +1,10 @@
 .sv2-eureka-step-item {
+    @apply relative flex flex-col pl-[16px] lg:pl-0 lg:flex-row lg:items-center gap-[24px];
+
+    &.reversed {
+        @apply lg:flex-row-reverse;
+    }
+
     p {
         @apply my-0;
 
@@ -7,7 +13,7 @@
         }
 
         &.subtext {
-            font-size: var(--_size---type--paragraph-default);
+            font-size: var(--_size---type--paragraph-medium);
         }
     }
 }
