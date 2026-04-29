@@ -8,7 +8,7 @@ export const SV2EurekaStepItem = ({ reverse, title, description, type, image, vi
         <div className='subtext'>{description}</div>
       </div>
       <div className='absolute top-0 bottom-0 left-0 lg:static w-[1px] bg-white/[0.2] lg:self-stretch'></div>
-      <div className='media-container flex-1 lg:py-[60px]'>
+      <div className='media-container flex-1 lg:py-[60px] bg-[#1a1a1a]'>
         {type === "Image" && image && (
           <img src={image.src} alt="" className='w-full h-auto mix-blend-lighten'/>
         )}
