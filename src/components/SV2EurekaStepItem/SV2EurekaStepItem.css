@@ -13,7 +13,9 @@
         }
 
         &.subtext {
-            font-size: var(--_size---type--paragraph-medium);
+            p {
+                font-size: var(--_size---type--paragraph-medium);
+            }
         }
     }
 }
