@@ -6,7 +6,7 @@ h5,
 h6 {
     font-family: Inter, sans-serif;
     margin: 0;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--_colors---dark-gray);
 
     &.white {
@@ -37,7 +37,7 @@ h6 {
         color: var(--_colors---light-blue);
     }
 
-    &.gradient-text {
+    .gradient-text {
         -webkit-text-fill-color: transparent;
         background: linear-gradient(90deg, #0074e8, #a933fb);
         -webkit-background-clip: text;
