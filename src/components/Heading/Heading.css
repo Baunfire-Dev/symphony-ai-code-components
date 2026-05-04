@@ -36,6 +36,14 @@ h6 {
     &.light-blue {
         color: var(--_colors---light-blue);
     }
+
+    &.gradient-text {
+        -webkit-text-fill-color: transparent;
+        background: linear-gradient(90deg, #0074e8, #a933fb);
+        -webkit-background-clip: text;
+        background-clip: text;
+        font-weight: 600;
+    }
 }
 
 h1,
