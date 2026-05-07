@@ -6,6 +6,10 @@ export default declareComponent(Background, {
   name: 'Background',
   description: '',
   props: {
+    isVisible: props.Visibility({
+      name: "Visible",
+      defaultValue: true
+    }),
     type: props.Variant({
       name: "Type",
       defaultValue: "Image",

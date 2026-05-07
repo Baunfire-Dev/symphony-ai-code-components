@@ -1,8 +1,8 @@
 import "./Background.css";
 
-export const Background = ({ type = "Image", image, videoURL }) => {
+export const Background = ({ isVisible = true, type = "Image", image, videoURL }) => {
   return (
-    <div className="background-container">
+    <div className={['background-container', !isVisible ? "hidden" : ""].filter(Boolean).join(" ")}>
       {type === "Image" && image && (
         <img src={image.src} alt="" />
       )}
