@@ -5,6 +5,7 @@ import { declareComponent } from "@webflow/react";
 export default declareComponent(Heading, {
   name: "Heading",
   description: "",
+  group: "Global",
   props: {
     isVisible: props.Visibility({
       name: "Visible",

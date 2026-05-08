@@ -3,13 +3,14 @@ import { props } from '@webflow/data-types';
 import { declareComponent } from '@webflow/react';
 
 export default declareComponent(VideoPlayer, {
-  name: 'VideoPlayer',
+  name: 'Video Player',
   description: '',
+  group: 'Full Width Video Content',
   props: {
     videoURL: props.Text({
-      name: "Text",
+      name: "Video URL",
       defaultValue: "",
-      tooltip: "",
+      tooltip: "Enter a direct link to an MP4 video file (e.g., a direct Vimeo MP4 URL). Other page links are not supported.",
     }),
     videoThumbnail: props.Image({
       name: "Video Thumbnail",

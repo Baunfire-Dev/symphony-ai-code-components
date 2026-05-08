@@ -5,6 +5,7 @@ import { declareComponent } from '@webflow/react';
 export default declareComponent(CTAButton, {
   name: 'CTAButton',
   description: '',
+  group: 'Global',
   props: {
     isVisible: props.Visibility({
       name: "Visible",

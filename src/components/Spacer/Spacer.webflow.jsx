@@ -5,6 +5,7 @@ import { declareComponent } from '@webflow/react';
 export default declareComponent(Spacer, {
   name: 'Spacer',
   description: '',
+  group: 'Global',
   props: {
     spacingSize: props.Variant({
       name: "Spacing Size",
