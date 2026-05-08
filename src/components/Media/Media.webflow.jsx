@@ -5,7 +5,7 @@ import { declareComponent } from '@webflow/react';
 export default declareComponent(Media, {
   name: 'Media',
   description: '',
-  group: 'Two Column Media-Content',
+  group: 'Global',
   props: {
     type: props.Variant({
       name: "Type",
