@@ -86,7 +86,7 @@ import { props } from '@webflow/data-types';
 import { declareComponent } from '@webflow/react';
 
 export default declareComponent(ResourcesCards, {
-    name: "Resource Block",
+    name: "ResourcesCards",
     group: "Resources",
     options: {
         ssr: false,
