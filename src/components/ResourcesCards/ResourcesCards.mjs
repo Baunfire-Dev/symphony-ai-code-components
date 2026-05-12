@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 
 const CONFIG = {
-    token: process.env.WEBFLOW_API_TOKEN,
+    token: process.env.WEBFLOW_DATA_API_TOKEN,
     siteId: process.env.WEBFLOW_SITE_ID,
     collections: {
         verticals: process.env.WEBFLOW_VERTICALS_COLLECTION_ID,
