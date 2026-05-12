@@ -1,5 +1,4 @@
-
-import { ResourcesCards } from "./ResourcesCards";
+import ResourcesCards from "./ResourcesCards";
 import { props } from '@webflow/data-types';
 import { declareComponent } from '@webflow/react';
 
