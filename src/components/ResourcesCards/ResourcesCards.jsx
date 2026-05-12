@@ -32,7 +32,7 @@ export default function ResourceBlock(props) {
 
                 while (true) {
                     const res = await fetch(
-                        `https://api.webflow.com/v2/collections/${resourcesCollectionId}/items/live?limit=${PAGE_SIZE}&offset=${offset}&sortBy=createdOn&sortOrder=desc`
+                        `https://api.webflow.com/v2/collections/${resourcesCollectionId}/items/live?limit=${PAGE}&offset=${offset}&sortBy=createdOn&sortOrder=desc`
                     );
                     if (!res.ok) throw new Error(`API error ${res.status}`);
                     const data = await res.json();
