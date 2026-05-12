@@ -59,13 +59,13 @@ function generateProps(items, prefix) {
         const name = item.fieldData?.[CONFIG.nameField] ?? item.id;
         const key = `${prefix}_${sanitizeKey(name)}`;
         const group = prefix[0].toUpperCase() + prefix.slice(1).toLowerCase();
-        return { key, id: item.id, name, group };
+        return { key, id: item.id, name, group, type: prefix };
     });
 }
 
 function renderFilterMap(allProps) {
     const lines = allProps
-        .map(({ key, id }) => `  ${key}: ${JSON.stringify(id)},`)
+        .map(({ key, id, name, type }) => `${key}: { id: ${JSON.stringify(id)}, name: ${JSON.stringify(name)}, type: ${JSON.stringify(type)} },`)
         .join("\n");
 
     return `const FILTER_MAP = {\n${lines}\n};\n\nexport default FILTER_MAP;\n`;
@@ -73,14 +73,14 @@ function renderFilterMap(allProps) {
 
 function renderDefinition(allProps) {
     const propsBlock = allProps
-    .map(({ key, group, name }) => `
+        .map(({ key, group, name }) => `
         ${key}: props.Boolean({ 
             name: ${JSON.stringify(name)}, 
             defaultValue: false,
             group: ${JSON.stringify(group)}
         })`);
 
-return `
+    return `
 import ResourcesCards from "./ResourcesCards";
 import { props } from '@webflow/data-types';
 import { declareComponent } from '@webflow/react';
