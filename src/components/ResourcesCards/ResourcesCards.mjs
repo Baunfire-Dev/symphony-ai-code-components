@@ -118,10 +118,10 @@ async function main() {
     ];
 
     fs.writeFileSync(CONFIG.outFilterMap, renderFilterMap(allProps), "utf8");
-    console.log(`Written: ${CONFIG.outFilterMap}`);
+    console.log(`Generated: ${CONFIG.outFilterMap}`);
 
     fs.writeFileSync(CONFIG.outDefinition, renderDefinition(allProps), "utf8");
-    console.log(`Written: ${CONFIG.outDefinition}`);
+    console.log(`Generated: ${CONFIG.outDefinition}`);
 }
 
 main().catch((err) => {
