@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FILTER_MAP } from "./filterMap";
+import FILTER_MAP from "./filterMap";
 
 export default function ResourceBlock(props) {
     const { resourcesCollectionId = "", ...filterProps } = props;
