@@ -1,10 +1,11 @@
+import './ResourcesCards.css';
 import React, { useEffect, useState } from "react";
 import FILTER_MAP from "./filterMap";
 
 function ResourceCard({ resource, size = "small", getLabelsByIds }) {
     const fd = resource.fieldData;
 
-    const date = new Date(resource.createdOn);
+    const date = new Date(fd['publish-date']);
     const formattedDate = `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
 
     const verticalNames = getLabelsByIds([].concat(fd["verticals-2"] ?? []), "vertical");
@@ -162,11 +163,13 @@ export default function ResourcesCards(props) {
     return (
         <div className="src-cards">
             {featuredResource && (
-                <ResourceCard
-                    resource={featuredResource}
-                    size="big"
-                    getLabelsByIds={getLabelsByIds}
-                />
+                <div className="src-card-outer is-single">
+                    <ResourceCard
+                        resource={featuredResource}
+                        size="big"
+                        getLabelsByIds={getLabelsByIds}
+                    />
+                </div>
             )}
 
             {secondaryResources.length > 0 && (
