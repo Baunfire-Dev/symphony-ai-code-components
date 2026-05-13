@@ -19,7 +19,7 @@ function ResourceCard({ resource, size = "small", getLabelsByIds }) {
             <div class="src-c-head">
                 <div class="src-c-head-inner">
                     <p class="src-c-date">{formattedDate}</p>
-                    <p class="src-c-type">{typeNames[0] || "Resource"}</p>
+                    <p class="src-c-type">{typeNames.join(", ") || "Resource"}</p>
                 </div>
 
                 <p class="src-c-title">{fd.name}</p>
@@ -37,7 +37,7 @@ function ResourceCard({ resource, size = "small", getLabelsByIds }) {
             <div class="src-foot">
                 <div class="src-foot-inner">
                     <div class="src-c-orb"></div>
-                    <p class="src-c-tag">{topicNames[0] || verticalNames[0]}</p>
+                    <p class="src-c-tag">{topicNames.join(", ") || verticalNames.join(", ")}</p>
                 </div>
 
                 <div class="src-c-arrow">

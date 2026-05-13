@@ -2,45 +2,49 @@ import './ResourcesGridCards.css';
 import React, { useEffect, useState } from "react";
 import FILTER_MAP from "./filterMap";
 
-function ResourceCard({ resource, size = "small", getLabelsByIds }) {
+function ResourceCard({ type, resource, size = "small", getLabelsByIds }) {
     const fd = resource.fieldData;
 
     const date = new Date(fd['publish-date']);
     const formattedDate = `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
 
-    const verticalNames = getLabelsByIds([].concat(fd["verticals-2"] ?? []), "vertical");
+    // const verticalNames = getLabelsByIds([].concat(fd["verticals-2"] ?? []), "vertical");
     const typeNames = getLabelsByIds([].concat(fd["types-2"] ?? []), "type");
-    const topicNames = getLabelsByIds([].concat(fd["topics-2"] ?? []), "topic");
+    // const topicNames = getLabelsByIds([].concat(fd["topics-2"] ?? []), "topic");
+
+    let slug = fd.slug;
+
+    if (type == "Events & Webinars") {
+        slug = fd['news-url'] || slug;
+    } else if (type == "News") {
+        slug = fd['external-url'] || slug;
+    }
 
     return (
-        <div class={`src-card is-${size}`} key={resource.id}>
-            <a href={`/${fd.slug}`} class="src-c-link"></a>
+        <div class={`lnre-card is-${size}`} key={resource.id}>
+            <a href={`/${slug}`} class="lnre-c-link"></a>
 
-            <div class="src-c-head">
-                <div class="src-c-head-inner">
-                    <p class="src-c-date">{formattedDate}</p>
-                    <p class="src-c-type">{typeNames[0] || "Resource"}</p>
+            <div class="lnre-c-head">
+                <div class="lnre-c-head-inner">
+                    <p class="lnre-c-type">{typeNames.join(", ")}</p>
+
+                    {fd["logo"]?.url && (
+                        <img
+                            loading="lazy"
+                            src={fd["logo"]?.url}
+                            alt={fd["logo"]?.alt}
+                            class="lnre-c-image"
+                        />
+                    )}
                 </div>
 
-                <p class="src-c-title">{fd.name}</p>
-
-                {fd["featured-image"]?.url && (
-                    <img
-                        loading="lazy"
-                        src={fd["featured-image"]?.url}
-                        alt={fd["featured-image"]?.alt}
-                        class="src-c-image"
-                    />
-                )}
+                <p class="lnre-c-title">{fd.name}</p>
             </div>
 
-            <div class="src-foot">
-                <div class="src-foot-inner">
-                    <div class="src-c-orb"></div>
-                    <p class="src-c-tag">{topicNames[0] || verticalNames[0]}</p>
-                </div>
+            <div class="lnre-foot">
+                <p class="lnre-c-date">{formattedDate}</p>
 
-                <div class="src-c-arrow">
+                <div class="lnre-c-arrow">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="14" viewBox="0 0 26 14" fill="none">
                         <path d="M18.913 1L25 7M25 7L18.913 13M25 7L1 7" stroke="#0074E8" stroke-linecap="square"></path>
                     </svg>
@@ -176,10 +180,11 @@ export default function ResourcesGridCards(props) {
     const secondaryResources = resources.slice(1);
 
     return (
-        <div className="src-cards">
+        <div className="lnre-cards">
             {featuredResource && (
-                <div className="src-card-outer is-single">
+                <div className="lnre-card-outer is-single">
                     <ResourceCard
+                        type={dataSource}
                         resource={featuredResource}
                         size="big"
                         getLabelsByIds={getLabelsByIds}
@@ -188,9 +193,10 @@ export default function ResourcesGridCards(props) {
             )}
 
             {secondaryResources.length > 0 && (
-                <div className="src-card-outer is-multiple">
+                <div className="lnre-card-outer is-multiple">
                     {secondaryResources.map((resource) => (
                         <ResourceCard
+                            type={dataSource}
                             key={resource.id}
                             resource={resource}
                             size="small"
