@@ -1,10 +1,10 @@
 
-import ResourcesCards from "./ResourcesCards";
+import ResourcesCards from "./ResourcesGridCards";
 import { props } from '@webflow/data-types';
 import { declareComponent } from '@webflow/react';
 
-export default declareComponent(ResourcesCards, {
-    name: "Resources Cards",
+export default declareComponent(ResourcesGridCards, {
+    name: "Resources Grid Cards",
     group: "Resources",
     options: {
         ssr: false,
@@ -16,11 +16,28 @@ export default declareComponent(ResourcesCards, {
             group: 'Tokens',
             tooltip: 'Critical prop — only edit if you know what you are doing.',
         }),
+        eventsWebinarCollectionId: props.Text({
+            name: "Events & Webinar Collection ID",
+            defaultValue: "69cd6967f180f09bb818bf03",
+            group: 'Tokens',
+            tooltip: 'Critical prop — only edit if you know what you are doing.',
+        }),
+        newsCollectionId: props.Text({
+            name: "News Collection ID",
+            defaultValue: "69cd6967f180f09bb818bee4",
+            group: 'Tokens',
+            tooltip: 'Critical prop — only edit if you know what you are doing.',
+        }),
         resourcesCollectionId: props.Text({
             name: "Resources Collection ID",
             defaultValue: "69cd6967f180f09bb818bf1b",
             group: 'Tokens',
             tooltip: 'Critical prop — only edit if you know what you are doing.',
+        }),
+        dataSource: props.Variant({
+            name: "Data Source",
+            defaultValue: "Resources",
+            options: ["Resources", "Events & Webinars", "News"],
         }), 
         vertical_ai: props.Boolean({ 
             name: "AI", 

@@ -11,7 +11,7 @@
         "preview": "vite preview",
         "create": "node scripts/create-component.js",
         "wf-share": "npx webflow library share",
-        "resources-cards": "node --env-file=.env src/components/ResourcesCards/ResourcesCards.mjs"
+        "resources-cards": "node --env-file=.env scripts/resource-generate.mjs"
     },
     "dependencies": {
         "fs-extra": "^11.3.4",
