@@ -1,16 +1,14 @@
 import './ResourcesGridCards.css';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import FILTER_MAP from "./filterMap";
 
-function ResourceCard({ type, resource, size = "small", getLabelsByIds }) {
+function ResourceCard({ type, resource, size = "small", getLabelsByIds, fields }) {
     const fd = resource.fieldData;
 
     const date = new Date(fd['publish-date']);
     const formattedDate = `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
 
-    // const verticalNames = getLabelsByIds([].concat(fd["verticals-2"] ?? []), "vertical");
-    const typeNames = getLabelsByIds([].concat(fd["types-2"] ?? []), "type");
-    // const topicNames = getLabelsByIds([].concat(fd["topics-2"] ?? []), "topic");
+    const typeNames = getLabelsByIds([].concat(fd[fields.types] ?? []), "type");
 
     let slug = fd.slug;
 
@@ -70,44 +68,49 @@ export default function ResourcesGridCards(props) {
         "Resources": resourcesCollectionId,
     };
 
-    const collectionId = collectionMap[dataSource] ?? resourcesCollectionId;;
+    const fieldMap = {
+        "Resources": {
+            verticals: "verticals-2",
+            types: "types-2",
+            topics: "topics-2",
+        },
+        "News": {
+            verticals: "verticals",
+            types: "types",
+            topics: "topics",
+        },
+        "Events & Webinars": {
+            verticals: "verticals",
+            types: "types",
+            topics: "topics",
+        },
+    };
+
+    const collectionId = collectionMap[dataSource] ?? resourcesCollectionId;
+    const fields = fieldMap[dataSource] ?? fieldMap["Resources"];
 
     const [resources, setResources] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const activeVerticalIds = new Set();
-    const activeTypeIds = new Set();
-    const activeTopicIds = new Set();
+    const filterKey = useMemo(
+        () => Object.keys(FILTER_MAP).filter((k) => filterProps[k]).sort().join("|"),
+        [filterProps]
+    );
 
-    for (const [key, { id, type }] of Object.entries(FILTER_MAP)) {
-        if (!filterProps[key]) continue;
+    const activeFilters = useMemo(() => {
+        const verticals = new Set();
+        const types = new Set();
+        const topics = new Set();
 
-        if (type === "vertical") activeVerticalIds.add(id);
-        if (type === "type") activeTypeIds.add(id);
-        if (type === "topic") activeTopicIds.add(id);
-    }
-
-    function matchesFilters(r) {
-        const fd = r.fieldData;
-
-        if (activeVerticalIds.size > 0) {
-            const vals = [].concat(fd["verticals-2"] ?? []);
-            if (!vals.some((id) => activeVerticalIds.has(id))) return false;
+        for (const [key, { id, type }] of Object.entries(FILTER_MAP)) {
+            if (!filterProps[key]) continue;
+            if (type === "vertical") verticals.add(id);
+            else if (type === "type") types.add(id);
+            else if (type === "topic") topics.add(id);
         }
-
-        if (activeTypeIds.size > 0) {
-            const vals = [].concat(fd["types-2"] ?? []);
-            if (!vals.some((id) => activeTypeIds.has(id))) return false;
-        }
-
-        if (activeTopicIds.size > 0) {
-            const vals = [].concat(fd["topics-2"] ?? []);
-            if (!vals.some((id) => activeTopicIds.has(id))) return false;
-        }
-
-        return true;
-    }
+        return { verticals, types, topics };
+    }, [filterKey]);
 
     function getLabelsByIds(ids, type) {
         return Object.values(FILTER_MAP)
@@ -118,13 +121,28 @@ export default function ResourcesGridCards(props) {
     useEffect(() => {
         if (!siteTokenId || !collectionId) return;
 
+        let cancelled = false;
+
         async function fetchResources() {
             setLoading(true);
             setError(null);
 
+            const matchesFilters = (r) => {
+                const fd = r.fieldData;
+                const check = (field, set) => {
+                    if (set.size === 0) return true;
+                    const vals = [].concat(fd[field] ?? []);
+                    return vals.some((id) => set.has(id));
+                };
+                return (
+                    check(fields.verticals, activeFilters.verticals) &&
+                    check(fields.types, activeFilters.types) &&
+                    check(fields.topics, activeFilters.topics)
+                );
+            };
+
             try {
                 const PAGE = 100;
-
                 let offset = 0;
                 let total = null;
                 let results = [];
@@ -161,16 +179,20 @@ export default function ResourcesGridCards(props) {
                     if (offset >= total) break;
                 }
 
-                setResources(results.slice(0, 4));
+                if (!cancelled) setResources(results.slice(0, 4));
             } catch (err) {
-                setError(err.message);
+                if (!cancelled) setError(err.message);
             } finally {
-                setLoading(false);
+                if (!cancelled) setLoading(false);
             }
         }
 
         fetchResources();
-    }, [resourcesCollectionId, siteTokenId]);
+
+        return () => {
+            cancelled = true;
+        };
+    }, [dataSource, collectionId, siteTokenId, filterKey]);
 
     if (loading) return <div>Loading…</div>;
     if (error) return <div>Error: {error}</div>;
@@ -188,6 +210,7 @@ export default function ResourcesGridCards(props) {
                         resource={featuredResource}
                         size="big"
                         getLabelsByIds={getLabelsByIds}
+                        fields={fields}
                     />
                 </div>
             )}
@@ -201,6 +224,7 @@ export default function ResourcesGridCards(props) {
                             resource={resource}
                             size="small"
                             getLabelsByIds={getLabelsByIds}
+                            fields={fields}
                         />
                     ))}
                 </div>
