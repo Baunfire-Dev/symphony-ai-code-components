@@ -51,7 +51,22 @@ function ResourceCard({ resource, size = "small", getLabelsByIds }) {
 }
 
 export default function ResourcesCards(props) {
-    const { resourcesCollectionId = "", siteTokenId = "", ...filterProps } = props;
+    const {
+        resourcesCollectionId = "",
+        newsCollectionId = "",
+        eventsWebinarCollectionId = "",
+        siteTokenId = "",
+        dataSource = "Resources",
+        ...filterProps
+    } = props;
+
+    const collectionMap = {
+        "News": newsCollectionId,
+        "Events & Webinars": eventsWebinarCollectionId,
+        "Resources": resourcesCollectionId,
+    };
+
+    const collectionId = collectionMap[dataSource] ?? resourcesCollectionId;;
 
     const [resources, setResources] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -97,7 +112,7 @@ export default function ResourcesCards(props) {
     }
 
     useEffect(() => {
-        if (!siteTokenId || !resourcesCollectionId) return;
+        if (!siteTokenId || !collectionId) return;
 
         async function fetchResources() {
             setLoading(true);
@@ -112,7 +127,7 @@ export default function ResourcesCards(props) {
 
                 while (results.length < 4) {
                     const res = await fetch(
-                        `https://api-cdn.webflow.com/v2/collections/${resourcesCollectionId}/items/live?limit=${PAGE}&offset=${offset}&sortBy=createdOn&sortOrder=desc`,
+                        `https://api-cdn.webflow.com/v2/collections/${collectionId}/items/live?limit=${PAGE}&offset=${offset}&sortBy=createdOn&sortOrder=desc`,
                         {
                             headers: {
                                 Authorization: `Bearer ${siteTokenId}`,

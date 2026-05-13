@@ -88,7 +88,7 @@ import { props } from '@webflow/data-types';
 import { declareComponent } from '@webflow/react';
 
 export default declareComponent(ResourcesCards, {
-    name: "ResourcesCards",
+    name: "Resources Cards",
     group: "Resources",
     options: {
         ssr: false,
@@ -101,19 +101,19 @@ export default declareComponent(ResourcesCards, {
             tooltip: 'Critical prop — only edit if you know what you are doing.',
         }),
         eventsWebinarCollectionId: props.Text({
-            name: "Resources collection ID",
+            name: "Events & Webinar Collection ID",
             defaultValue: ${JSON.stringify(CONFIG.collections.eventsWebinar ?? "")},
             group: 'Tokens',
             tooltip: 'Critical prop — only edit if you know what you are doing.',
         }),
         newsCollectionId: props.Text({
-            name: "Resources collection ID",
+            name: "News Collection ID",
             defaultValue: ${JSON.stringify(CONFIG.collections.news ?? "")},
             group: 'Tokens',
             tooltip: 'Critical prop — only edit if you know what you are doing.',
         }),
         resourcesCollectionId: props.Text({
-            name: "Resources collection ID",
+            name: "Resources Collection ID",
             defaultValue: ${JSON.stringify(CONFIG.collections.resources ?? "")},
             group: 'Tokens',
             tooltip: 'Critical prop — only edit if you know what you are doing.',

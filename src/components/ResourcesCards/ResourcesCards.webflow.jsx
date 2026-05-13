@@ -5,7 +5,7 @@ import { declareComponent } from '@webflow/react';
 
 export default declareComponent(ResourcesCards, {
     name: "Resources Cards",
-    group: "Featured Resources",
+    group: "Resources",
     options: {
         ssr: false,
     },
@@ -17,19 +17,19 @@ export default declareComponent(ResourcesCards, {
             tooltip: 'Critical prop — only edit if you know what you are doing.',
         }),
         eventsWebinarCollectionId: props.Text({
-            name: "Resources collection ID",
+            name: "Events & Webinar Collection ID",
             defaultValue: "69cd6967f180f09bb818bf03",
             group: 'Tokens',
             tooltip: 'Critical prop — only edit if you know what you are doing.',
         }),
         newsCollectionId: props.Text({
-            name: "Resources collection ID",
+            name: "News Collection ID",
             defaultValue: "69cd6967f180f09bb818bee4",
             group: 'Tokens',
             tooltip: 'Critical prop — only edit if you know what you are doing.',
         }),
         resourcesCollectionId: props.Text({
-            name: "Resources collection ID",
+            name: "Resources Collection ID",
             defaultValue: "69cd6967f180f09bb818bf1b",
             group: 'Tokens',
             tooltip: 'Critical prop — only edit if you know what you are doing.',
