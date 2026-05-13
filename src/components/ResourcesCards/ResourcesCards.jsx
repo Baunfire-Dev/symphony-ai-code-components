@@ -102,7 +102,7 @@ export default function ResourcesCards(props) {
     }
 
     useEffect(() => {
-        if (!siteTokenId || !collectionId) return;
+        if (!siteTokenId || !resourcesCollectionId) return;
 
         async function fetchResources() {
             setLoading(true);
