@@ -5,18 +5,21 @@ import FILTER_MAP from "./filterMap";
 function ResourceCard({ type, resource, size = "small", getLabelsByIds, fields }) {
     const fd = resource.fieldData;
 
-    const date = new Date(fd['publish-date']);
-    const formattedDate = `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
-
     const typeNames = getLabelsByIds([].concat(fd[fields.types] ?? []), "type");
 
     let slug = fd.slug;
+    let dateSlug = 'post-date';
 
     if (type == "Events & Webinars") {
         slug = fd['news-url'] || slug;
     } else if (type == "News") {
         slug = fd['external-url'] || slug;
+    } else {
+        dateSlug = 'publish-date';
     }
+
+    const date = new Date(fd[dateSlug]);
+    const formattedDate = `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
 
     return (
         <div class={`lnre-card is-${size}`} key={resource.id}>
