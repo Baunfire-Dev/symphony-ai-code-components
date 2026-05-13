@@ -13,10 +13,31 @@ export default declareComponent(ResourcesCards, {
         siteTokenId: props.Text({
             name: "Site Token ID",
             defaultValue: "6c2e25dab47b0bb680017fe74d4fef0e8f85a2d539574e0089a9f3a16d1dbdb9",
+            group: 'Tokens',
+            tooltip: 'Critical prop — only edit if you know what you are doing.',
+        }),
+        eventsWebinarCollectionId: props.Text({
+            name: "Resources collection ID",
+            defaultValue: "69cd6967f180f09bb818bf03",
+            group: 'Tokens',
+            tooltip: 'Critical prop — only edit if you know what you are doing.',
+        }),
+        newsCollectionId: props.Text({
+            name: "Resources collection ID",
+            defaultValue: "69cd6967f180f09bb818bee4",
+            group: 'Tokens',
+            tooltip: 'Critical prop — only edit if you know what you are doing.',
         }),
         resourcesCollectionId: props.Text({
             name: "Resources collection ID",
             defaultValue: "69cd6967f180f09bb818bf1b",
+            group: 'Tokens',
+            tooltip: 'Critical prop — only edit if you know what you are doing.',
+        }),
+        dataSource: props.Variant({
+            name: "Data Source",
+            defaultValue: "Resources",
+            options: ["Resources", "Events & Webinars", "News"],
         }), 
         vertical_ai: props.Boolean({ 
             name: "AI", 

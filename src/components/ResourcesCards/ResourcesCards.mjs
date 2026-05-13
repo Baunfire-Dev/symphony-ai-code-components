@@ -9,6 +9,8 @@ const CONFIG = {
         types: process.env.WEBFLOW_TYPES_COLLECTION_ID,
         topics: process.env.WEBFLOW_TOPICS_COLLECTION_ID,
         resources: process.env.WEBFLOW_RESOURCES_COLLECTION_ID,
+        news: process.env.WEBFLOW_NEWS_COLLECTION_ID,
+        eventsWebinar: process.env.WEBFLOW_EVENTS_WEBINAR_COLLECTION_ID,
     },
     nameField: "name",
     outDefinition: path.resolve("./src/components/ResourcesCards/ResourcesCards.webflow.jsx"),
@@ -95,10 +97,31 @@ export default declareComponent(ResourcesCards, {
         siteTokenId: props.Text({
             name: "Site Token ID",
             defaultValue: ${JSON.stringify(CONFIG.token ?? "")},
+            group: 'Tokens',
+            tooltip: 'Critical prop — only edit if you know what you are doing.',
+        }),
+        eventsWebinarCollectionId: props.Text({
+            name: "Resources collection ID",
+            defaultValue: ${JSON.stringify(CONFIG.collections.eventsWebinar ?? "")},
+            group: 'Tokens',
+            tooltip: 'Critical prop — only edit if you know what you are doing.',
+        }),
+        newsCollectionId: props.Text({
+            name: "Resources collection ID",
+            defaultValue: ${JSON.stringify(CONFIG.collections.news ?? "")},
+            group: 'Tokens',
+            tooltip: 'Critical prop — only edit if you know what you are doing.',
         }),
         resourcesCollectionId: props.Text({
             name: "Resources collection ID",
             defaultValue: ${JSON.stringify(CONFIG.collections.resources ?? "")},
+            group: 'Tokens',
+            tooltip: 'Critical prop — only edit if you know what you are doing.',
+        }),
+        dataSource: props.Variant({
+            name: "Data Source",
+            defaultValue: "Resources",
+            options: ["Resources", "Events & Webinars", "News"],
         }), ${propsBlock}
     },
 });`;
