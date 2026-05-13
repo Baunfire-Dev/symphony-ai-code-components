@@ -22,7 +22,7 @@ async function fetchCollection(collectionId) {
 
     while (true) {
         const res = await fetch(
-            `https://api-cdn.webflow.com/v2/sites/${CONFIG.siteId}/collections/${collectionId}/items?limit=${PAGE}&offset=${offset}`,
+            `https://api-cdn.webflow.com/v2/sites/${CONFIG.siteId}/collections/${collectionId}/items?limit=${PAGE}&offset=${offset}&sortBy=name&sortOrder=asc`,
             {
                 headers: {
                     Authorization: `Bearer ${CONFIG.token}`,
