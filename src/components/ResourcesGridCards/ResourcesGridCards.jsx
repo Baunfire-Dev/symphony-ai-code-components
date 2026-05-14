@@ -18,7 +18,7 @@ function getFetchOrigin() {
 function ResourceCard({ type, resource, size = "small", getLabelsBySlugs }) {
     const typeNames = getLabelsBySlugs([].concat(resource.types ?? []), "type");
 
-    let slug = resource.slug;
+    let slug = `/${resource.slug}`;
 
     if (type === "Events & Webinars") {
         slug = resource.externalUrl || slug;
@@ -31,7 +31,7 @@ function ResourceCard({ type, resource, size = "small", getLabelsBySlugs }) {
 
     return (
         <div className={`lnre-card is-${size}`} key={resource.id}>
-            <a href={`/${slug}`} className="lnre-c-link"></a>
+            <a href={`${slug}`} className="lnre-c-link"></a>
 
             <div className="lnre-c-head">
                 <div className="lnre-c-head-inner">
