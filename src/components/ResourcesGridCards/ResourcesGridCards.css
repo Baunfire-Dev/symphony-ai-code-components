@@ -28,10 +28,20 @@ p {
 	display: flex;
 	position: relative;
 	gap: 32px;
-    min-height: 280px;
+	min-height: 280px;
+    transition: all 0.3s ease-out;
 
 	&.is-big {
 		grid-column: 2 / span 2;
+	}
+
+	&:hover {
+		.lnre-c-title,
+		.lnre-c-date {
+			color: var(--_colors---blue);
+		}
+
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 	}
 }
 
@@ -58,6 +68,11 @@ p {
 	justify-content: space-between;
 	align-items: center;
 	flex: 1;
+}
+
+.lnre-c-title,
+.lnre-c-date {
+    transition: all 0.3s ease-out;
 }
 
 .lnre-c-image {
