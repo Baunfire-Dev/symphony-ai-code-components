@@ -50,6 +50,18 @@ function ResourceCard({ type, resource, size = "small", getLabelsByIds }) {
     );
 }
 
+function getFetchBase() {
+    if (typeof window === 'undefined') return '';
+    const host = window.location.hostname;
+    
+    if (host.endsWith('.design.webflow.com')) {
+        const slug = host.replace('.design.webflow.com', '');
+        return `https://${slug}.webflow.io`;
+    }
+    
+    return '';
+}
+
 export default function ResourcesGridCards(props) {
     const {
         resourcesFeedUrl = "/data/resources",

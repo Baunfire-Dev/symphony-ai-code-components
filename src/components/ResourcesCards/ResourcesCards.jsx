@@ -2,6 +2,19 @@ import './ResourcesCards.css';
 import React, { useEffect, useMemo, useState } from "react";
 import FILTER_MAP from "./filterMap";
 
+function getFetchBase() {
+    if (typeof window === 'undefined') return '';
+
+    const host = window.location.hostname;
+
+    if (host.endsWith('.design.webflow.com')) {
+        const slug = host.replace('.design.webflow.com', '');
+        return `https://${slug}.webflow.io`;
+    }
+
+    return '';
+}
+
 function ResourceCard({ resource, size = "small", getLabelsBySlugs }) {
     const date = new Date(resource.date);
     const formattedDate = `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
@@ -89,12 +102,14 @@ export default function ResourcesCards(props) {
 
         let cancelled = false;
 
+        const baseUrl = getFetchBase();
+
         async function fetchPage(pageNum) {
-            const url = pageNum === 1
+            const path = pageNum === 1
                 ? resourcesFeedUrl
                 : `${resourcesFeedUrl}?${resourcesPaginationParam}=${pageNum}`;
 
-            const res = await fetch(url);
+            const res = await fetch(`${baseUrl}${path}`);
             if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
 
             const html = await res.text();
