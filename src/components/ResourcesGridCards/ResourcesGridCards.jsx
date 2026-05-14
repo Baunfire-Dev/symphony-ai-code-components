@@ -21,9 +21,9 @@ function ResourceCard({ type, resource, size = "small", getLabelsBySlugs }) {
     let slug = resource.slug;
 
     if (type === "Events & Webinars") {
-        slug = resource.newsUrl || slug;
-    } else if (type === "News") {
         slug = resource.externalUrl || slug;
+    } else if (type === "News") {
+        slug = resource.newsUrl || slug;
     }
 
     const date = new Date(resource.date);
@@ -37,7 +37,7 @@ function ResourceCard({ type, resource, size = "small", getLabelsBySlugs }) {
                 <div className="lnre-c-head-inner">
                     <p className="lnre-c-type">{typeNames.join(", ")}</p>
 
-                    {resource.logoUrl && (
+                    {(type === "News" && resource.logoUrl) && (
                         <img
                             loading="lazy"
                             src={resource.logoUrl}
