@@ -15,8 +15,8 @@ function getFetchOrigin() {
     return '';
 }
 
-function ResourceCard({ type, resource, size = "small", getLabelsByIds }) {
-    const typeNames = getLabelsByIds([].concat(resource.types ?? []), "type");
+function ResourceCard({ type, resource, size = "small", getLabelsBySlugs }) {
+    const typeNames = getLabelsBySlugs([].concat(resource.types ?? []), "type");
 
     let slug = resource.slug;
 
@@ -225,7 +225,7 @@ export default function ResourcesGridCards(props) {
                         type={dataSource}
                         resource={featuredResource}
                         size="big"
-                        getLabelsByIds={getLabelsByIds}
+                        getLabelsBySlugs={getLabelsBySlugs}
                     />
                 </div>
             )}
@@ -238,7 +238,7 @@ export default function ResourcesGridCards(props) {
                             key={resource.id}
                             resource={resource}
                             size="small"
-                            getLabelsByIds={getLabelsByIds}
+                            getLabelsBySlugs={getLabelsBySlugs}
                         />
                     ))}
                 </div>
