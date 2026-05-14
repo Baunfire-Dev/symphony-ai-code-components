@@ -2,6 +2,19 @@ import './ResourcesGridCards.css';
 import React, { useEffect, useMemo, useState } from "react";
 import FILTER_MAP from "./filterMap";
 
+function getFetchOrigin() {
+    const WORKER_ORIGIN = "https://symphonyai.rcuer.workers.dev";
+
+    if (typeof window === 'undefined') return '';
+
+    const host = window.location.hostname;
+
+    if (host.endsWith('.design.webflow.com')) {
+        return WORKER_ORIGIN;
+    }
+    return '';
+}
+
 function ResourceCard({ type, resource, size = "small", getLabelsByIds }) {
     const typeNames = getLabelsByIds([].concat(resource.types ?? []), "type");
 
@@ -48,18 +61,6 @@ function ResourceCard({ type, resource, size = "small", getLabelsByIds }) {
             </div>
         </div>
     );
-}
-
-function getFetchBase() {
-    if (typeof window === 'undefined') return '';
-    const host = window.location.hostname;
-    
-    if (host.endsWith('.design.webflow.com')) {
-        const slug = host.replace('.design.webflow.com', '');
-        return `https://${slug}.webflow.io`;
-    }
-    
-    return '';
 }
 
 export default function ResourcesGridCards(props) {
@@ -109,35 +110,57 @@ export default function ResourcesGridCards(props) {
         return { verticals, types, topics };
     }, [filterKey]);
 
-    function getLabelsByIds(ids, type) {
+    function getLabelsBySlugs(slugs, type) {
         return Object.values(FILTER_MAP)
-            .filter((entry) => entry.type === type && ids.includes(entry.id))
+            .filter((entry) => entry.type === type && slugs.includes(entry.id))
             .map((entry) => entry.name);
     }
 
     useEffect(() => {
-        if (!feed?.url) return;
+        if (!feedUrl) return;
+        
+        const fetchOrigin = getFetchOrigin();
 
         let cancelled = false;
 
         async function fetchPage(pageNum) {
-            const url = pageNum === 1
-                ? feed.url
-                : `${feed.url}?${feed.paginationParam}=${pageNum}`;
+            const path = pageNum === 1
+                ? feedUrl
+                : `${feedUrl}?${paginationParam}=${pageNum}`;
 
-            const res = await fetch(url);
+            const res = await fetch(`${fetchOrigin}${path}`);
             if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
 
             const html = await res.text();
             const doc = new DOMParser().parseFromString(html, "text/html");
-            const scripts = doc.querySelectorAll("script[data-resource-item]");
 
-            return Array.from(scripts).map((s) => {
+            const itemWrappers = doc.querySelectorAll(".data-row");
+
+            return Array.from(itemWrappers).map((wrapper) => {
+                const mainScript = wrapper.querySelector("script[data-post-item]");
+                if (!mainScript) return null;
+
+                let main;
                 try {
-                    return JSON.parse(s.textContent);
+                    main = JSON.parse(mainScript.textContent);
                 } catch {
                     return null;
                 }
+
+                const parseSlugs = (selector) =>
+                    Array.from(wrapper.querySelectorAll(selector))
+                        .map((s) => {
+                            try { return JSON.parse(s.textContent).slug; }
+                            catch { return null; }
+                        })
+                        .filter(Boolean);
+
+                return {
+                    ...main,
+                    verticals: parseSlugs("script[data-vertical]"),
+                    types: parseSlugs("script[data-type]"),
+                    topics: parseSlugs("script[data-topic]"),
+                };
             }).filter(Boolean);
         }
 
@@ -146,15 +169,14 @@ export default function ResourcesGridCards(props) {
             setError(null);
 
             const matchesFilters = (item) => {
-                const check = (field, set) => {
+                const check = (vals, set) => {
                     if (set.size === 0) return true;
-                    const vals = [].concat(item[field] ?? []);
-                    return vals.some((id) => set.has(id));
+                    return (vals ?? []).some((slug) => set.has(slug));
                 };
                 return (
-                    check("verticals", activeFilters.verticals) &&
-                    check("types", activeFilters.types) &&
-                    check("topics", activeFilters.topics)
+                    check(item.verticals, activeFilters.verticals) &&
+                    check(item.types, activeFilters.types) &&
+                    check(item.topics, activeFilters.topics)
                 );
             };
 
@@ -186,7 +208,7 @@ export default function ResourcesGridCards(props) {
         return () => {
             cancelled = true;
         };
-    }, [dataSource, feed.url, feed.paginationParam, filterKey]);
+    }, [dataSource, feedUrl, paginationParam, filterKey]);
 
     if (loading) return <div>Loading…</div>;
     if (error) return <div>Error: {error}</div>;
