@@ -28,6 +28,7 @@ p {
 	display: flex;
 	position: relative;
 	gap: 32px;
+    min-height: 280px;
 
 	&.is-big {
 		grid-column: 2 / span 2;
