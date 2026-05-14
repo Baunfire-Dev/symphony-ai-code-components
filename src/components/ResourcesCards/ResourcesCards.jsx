@@ -1,48 +1,46 @@
 import './ResourcesCards.css';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import FILTER_MAP from "./filterMap";
 
-function ResourceCard({ resource, size = "small", getLabelsByIds }) {
-    const fd = resource.fieldData;
-
-    const date = new Date(fd['publish-date']);
+function ResourceCard({ resource, size = "small", getLabelsBySlugs }) {
+    const date = new Date(resource.date);
     const formattedDate = `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
 
-    const verticalNames = getLabelsByIds([].concat(fd["verticals-2"] ?? []), "vertical");
-    const typeNames = getLabelsByIds([].concat(fd["types-2"] ?? []), "type");
-    const topicNames = getLabelsByIds([].concat(fd["topics-2"] ?? []), "topic");
+    const verticalNames = getLabelsBySlugs(resource.verticals ?? [], "vertical");
+    const typeNames = getLabelsBySlugs(resource.types ?? [], "type");
+    const topicNames = getLabelsBySlugs(resource.topics ?? [], "topic");
 
     return (
-        <div class={`src-card is-${size}`} key={resource.id}>
-            <a href={`/${fd.slug}`} class="src-c-link"></a>
+        <div className={`src-card is-${size}`} key={resource.slug}>
+            <a href={`/${resource.slug}`} className="src-c-link"></a>
 
-            <div class="src-c-head">
-                <div class="src-c-head-inner">
-                    <p class="src-c-date">{formattedDate}</p>
-                    <p class="src-c-type">{typeNames.join(", ") || "Resource"}</p>
+            <div className="src-c-head">
+                <div className="src-c-head-inner">
+                    <p className="src-c-date">{formattedDate}</p>
+                    <p className="src-c-type">{typeNames.join(", ") || "Resource"}</p>
                 </div>
 
-                <p class="src-c-title">{fd.name}</p>
+                <p className="src-c-title">{resource.name}</p>
 
-                {fd["featured-image"]?.url && (
+                {resource.featuredImage && (
                     <img
                         loading="lazy"
-                        src={fd["featured-image"]?.url}
-                        alt={fd["featured-image"]?.alt}
-                        class="src-c-image"
+                        src={resource.featuredImage}
+                        alt=""
+                        className="src-c-image"
                     />
                 )}
             </div>
 
-            <div class="src-foot">
-                <div class="src-foot-inner">
-                    <div class="src-c-orb"></div>
-                    <p class="src-c-tag">{topicNames.join(", ") || verticalNames.join(", ")}</p>
+            <div className="src-foot">
+                <div className="src-foot-inner">
+                    <div className="src-c-orb"></div>
+                    <p className="src-c-tag">{topicNames.join(", ") || verticalNames.join(", ")}</p>
                 </div>
 
-                <div class="src-c-arrow">
+                <div className="src-c-arrow">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="14" viewBox="0 0 26 14" fill="none">
-                        <path d="M18.913 1L25 7M25 7L18.913 13M25 7L1 7" stroke="#0074E8" stroke-linecap="square"></path>
+                        <path d="M18.913 1L25 7M25 7L18.913 13M25 7L1 7" stroke="#0074E8" strokeLinecap="square"></path>
                     </svg>
                 </div>
             </div>
@@ -52,9 +50,8 @@ function ResourceCard({ resource, size = "small", getLabelsByIds }) {
 
 export default function ResourcesCards(props) {
     const {
-        resourcesCollectionId = "",
-        siteTokenId = "",
-        dataSource = "Resources",
+        resourcesFeedUrl = "/data/resources",
+        resourcesPaginationParam = "",
         ...filterProps
     } = props;
 
@@ -62,101 +59,122 @@ export default function ResourcesCards(props) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const activeVerticalIds = new Set();
-    const activeTypeIds = new Set();
-    const activeTopicIds = new Set();
+    const filterKey = useMemo(
+        () => Object.keys(FILTER_MAP).filter((k) => filterProps[k]).sort().join("|"),
+        [filterProps]
+    );
 
-    for (const [key, { id, type }] of Object.entries(FILTER_MAP)) {
-        if (!filterProps[key]) continue;
+    const activeFilters = useMemo(() => {
+        const verticals = new Set();
+        const types = new Set();
+        const topics = new Set();
 
-        if (type === "vertical") activeVerticalIds.add(id);
-        if (type === "type") activeTypeIds.add(id);
-        if (type === "topic") activeTopicIds.add(id);
-    }
-
-    function matchesFilters(r) {
-        const fd = r.fieldData;
-
-        if (activeVerticalIds.size > 0) {
-            const vals = [].concat(fd["verticals-2"] ?? []);
-            if (!vals.some((id) => activeVerticalIds.has(id))) return false;
+        for (const [key, { id, type }] of Object.entries(FILTER_MAP)) {
+            if (!filterProps[key]) continue;
+            if (type === "vertical") verticals.add(id);
+            else if (type === "type") types.add(id);
+            else if (type === "topic") topics.add(id);
         }
+        return { verticals, types, topics };
+    }, [filterKey]);
 
-        if (activeTypeIds.size > 0) {
-            const vals = [].concat(fd["types-2"] ?? []);
-            if (!vals.some((id) => activeTypeIds.has(id))) return false;
-        }
-
-        if (activeTopicIds.size > 0) {
-            const vals = [].concat(fd["topics-2"] ?? []);
-            if (!vals.some((id) => activeTopicIds.has(id))) return false;
-        }
-
-        return true;
-    }
-
-    function getLabelsByIds(ids, type) {
+    function getLabelsBySlugs(slugs, type) {
         return Object.values(FILTER_MAP)
-            .filter((entry) => entry.type === type && ids.includes(entry.id))
+            .filter((entry) => entry.type === type && slugs.includes(entry.id))
             .map((entry) => entry.name);
     }
 
     useEffect(() => {
-        if (!siteTokenId || !resourcesCollectionId) return;
+        if (!resourcesFeedUrl) return;
+
+        let cancelled = false;
+
+        async function fetchPage(pageNum) {
+            const url = pageNum === 1
+                ? resourcesFeedUrl
+                : `${resourcesFeedUrl}?${resourcesPaginationParam}=${pageNum}`;
+
+            const res = await fetch(url);
+            if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
+
+            const html = await res.text();
+            const doc = new DOMParser().parseFromString(html, "text/html");
+
+            const itemWrappers = doc.querySelectorAll(".data-row");
+
+            return Array.from(itemWrappers).map((wrapper) => {
+                const mainScript = wrapper.querySelector("script[data-resource-item]");
+                if (!mainScript) return null;
+
+                let main;
+                try {
+                    main = JSON.parse(mainScript.textContent);
+                } catch {
+                    return null;
+                }
+
+                const parseSlugs = (selector) =>
+                    Array.from(wrapper.querySelectorAll(selector))
+                        .map((s) => {
+                            try { return JSON.parse(s.textContent).slug; }
+                            catch { return null; }
+                        })
+                        .filter(Boolean);
+
+                return {
+                    ...main,
+                    verticals: parseSlugs("script[data-vertical]"),
+                    types: parseSlugs("script[data-type]"),
+                    topics: parseSlugs("script[data-topic]"),
+                };
+            }).filter(Boolean);
+        }
 
         async function fetchResources() {
             setLoading(true);
             setError(null);
 
+            const matchesFilters = (item) => {
+                const check = (vals, set) => {
+                    if (set.size === 0) return true;
+                    return (vals ?? []).some((slug) => set.has(slug));
+                };
+                return (
+                    check(item.verticals, activeFilters.verticals) &&
+                    check(item.types, activeFilters.types) &&
+                    check(item.topics, activeFilters.topics)
+                );
+            };
+
             try {
-                const PAGE = 100;
-
-                let offset = 0;
-                let total = null;
                 let results = [];
+                let page = 1;
+                const MAX_PAGES = 30;
 
-                while (results.length < 4) {
-                    const res = await fetch(
-                        `https://api-cdn.webflow.com/v2/collections/${resourcesCollectionId}/items/live?limit=${PAGE}&offset=${offset}&sortBy=createdOn&sortOrder=desc`,
-                        {
-                            headers: {
-                                Authorization: `Bearer ${siteTokenId}`,
-                                "accept-version": "2.0.0",
-                            },
-                        }
-                    );
+                while (results.length < 4 && page <= MAX_PAGES) {
+                    const items = await fetchPage(page);
+                    if (items.length === 0) break;
 
-                    if (!res.ok) {
-                        throw new Error(`API error ${res.status}`);
-                    }
+                    results = results.concat(items.filter(matchesFilters));
+                    page++;
 
-                    const data = await res.json();
-
-                    if (total === null) {
-                        total = data.pagination?.total ?? 0;
-                    }
-
-                    const matched = (data.items ?? [])
-                        .filter((r) => !r.isDraft && !r.isArchived)
-                        .filter(matchesFilters);
-
-                    results = results.concat(matched);
-
-                    offset += PAGE;
-
-                    if (offset >= total) break;
+                    if (cancelled) return;
                 }
 
-                setResources(results.slice(0, 4));
+                if (!cancelled) setResources(results.slice(0, 4));
             } catch (err) {
-                setError(err.message);
+                if (!cancelled) setError(err.message);
             } finally {
-                setLoading(false);
+                if (!cancelled) setLoading(false);
             }
         }
 
         fetchResources();
-    }, [resourcesCollectionId, siteTokenId]);
+
+        return () => {
+            cancelled = true;
+        };
+    }, [resourcesFeedUrl, resourcesPaginationParam, filterKey]);
 
     if (loading) return <div>Loading…</div>;
     if (error) return <div>Error: {error}</div>;
@@ -172,7 +190,7 @@ export default function ResourcesCards(props) {
                     <ResourceCard
                         resource={featuredResource}
                         size="big"
-                        getLabelsByIds={getLabelsByIds}
+                        getLabelsBySlugs={getLabelsBySlugs}
                     />
                 </div>
             )}
@@ -181,10 +199,10 @@ export default function ResourcesCards(props) {
                 <div className="src-card-outer is-multiple">
                     {secondaryResources.map((resource) => (
                         <ResourceCard
-                            key={resource.id}
+                            key={resource.slug}
                             resource={resource}
                             size="small"
-                            getLabelsByIds={getLabelsByIds}
+                            getLabelsBySlugs={getLabelsBySlugs}
                         />
                     ))}
                 </div>

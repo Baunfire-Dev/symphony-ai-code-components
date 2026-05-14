@@ -2,52 +2,47 @@ import './ResourcesGridCards.css';
 import React, { useEffect, useMemo, useState } from "react";
 import FILTER_MAP from "./filterMap";
 
-function ResourceCard({ type, resource, size = "small", getLabelsByIds, fields }) {
-    const fd = resource.fieldData;
+function ResourceCard({ type, resource, size = "small", getLabelsByIds }) {
+    const typeNames = getLabelsByIds([].concat(resource.types ?? []), "type");
 
-    const typeNames = getLabelsByIds([].concat(fd[fields.types] ?? []), "type");
+    let slug = resource.slug;
 
-    let slug = fd.slug;
-    let dateSlug = 'post-date';
-
-    if (type == "Events & Webinars") {
-        slug = fd['news-url'] || slug;
-    } else if (type == "News") {
-        slug = fd['external-url'] || slug;
-    } else {
-        dateSlug = 'publish-date';
+    if (type === "Events & Webinars") {
+        slug = resource.newsUrl || slug;
+    } else if (type === "News") {
+        slug = resource.externalUrl || slug;
     }
 
-    const date = new Date(fd[dateSlug]);
+    const date = new Date(resource.date);
     const formattedDate = `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
 
     return (
-        <div class={`lnre-card is-${size}`} key={resource.id}>
-            <a href={`/${slug}`} class="lnre-c-link"></a>
+        <div className={`lnre-card is-${size}`} key={resource.id}>
+            <a href={`/${slug}`} className="lnre-c-link"></a>
 
-            <div class="lnre-c-head">
-                <div class="lnre-c-head-inner">
-                    <p class="lnre-c-type">{typeNames.join(", ")}</p>
+            <div className="lnre-c-head">
+                <div className="lnre-c-head-inner">
+                    <p className="lnre-c-type">{typeNames.join(", ")}</p>
 
-                    {fd["logo"]?.url && (
+                    {resource.logoUrl && (
                         <img
                             loading="lazy"
-                            src={fd["logo"]?.url}
-                            alt={fd["logo"]?.alt}
-                            class="lnre-c-image"
+                            src={resource.logoUrl}
+                            alt={resource.logoAlt || ""}
+                            className="lnre-c-image"
                         />
                     )}
                 </div>
 
-                <p class="lnre-c-title">{fd.name}</p>
+                <p className="lnre-c-title">{resource.name}</p>
             </div>
 
-            <div class="lnre-foot">
-                <p class="lnre-c-date">{formattedDate}</p>
+            <div className="lnre-foot">
+                <p className="lnre-c-date">{formattedDate}</p>
 
-                <div class="lnre-c-arrow">
+                <div className="lnre-c-arrow">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="14" viewBox="0 0 26 14" fill="none">
-                        <path d="M18.913 1L25 7M25 7L18.913 13M25 7L1 7" stroke="#0074E8" stroke-linecap="square"></path>
+                        <path d="M18.913 1L25 7M25 7L18.913 13M25 7L1 7" stroke="#0074E8" strokeLinecap="square"></path>
                     </svg>
                 </div>
             </div>
@@ -57,40 +52,27 @@ function ResourceCard({ type, resource, size = "small", getLabelsByIds, fields }
 
 export default function ResourcesGridCards(props) {
     const {
-        resourcesCollectionId = "",
-        newsCollectionId = "",
-        eventsWebinarCollectionId = "",
-        siteTokenId = "",
+        resourcesFeedUrl = "/data/resources",
+        resourcesPaginationParam = "",
+        newsFeedUrl = "/data/news",
+        newsPaginationParam = "",
+        eventsFeedUrl = "/data/events",
+        eventsPaginationParam = "",
         dataSource = "Resources",
         ...filterProps
     } = props;
 
-    const collectionMap = {
-        "News": newsCollectionId,
-        "Events & Webinars": eventsWebinarCollectionId,
-        "Resources": resourcesCollectionId,
-    };
-
-    const fieldMap = {
-        "Resources": {
-            verticals: "verticals-2",
-            types: "types-2",
-            topics: "topics-2",
-        },
-        "News": {
-            verticals: "verticals",
-            types: "types",
-            topics: "topics",
-        },
-        "Events & Webinars": {
-            verticals: "verticals",
-            types: "types",
-            topics: "topics",
-        },
-    };
-
-    const collectionId = collectionMap[dataSource] ?? resourcesCollectionId;
-    const fields = fieldMap[dataSource] ?? fieldMap["Resources"];
+    let feedUrl, paginationParam;
+    if (dataSource === "News") {
+        feedUrl = newsFeedUrl;
+        paginationParam = newsPaginationParam;
+    } else if (dataSource === "Events & Webinars") {
+        feedUrl = eventsFeedUrl;
+        paginationParam = eventsPaginationParam;
+    } else {
+        feedUrl = resourcesFeedUrl;
+        paginationParam = resourcesPaginationParam;
+    }
 
     const [resources, setResources] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -122,64 +104,61 @@ export default function ResourcesGridCards(props) {
     }
 
     useEffect(() => {
-        if (!siteTokenId || !collectionId) return;
+        if (!feed?.url) return;
 
         let cancelled = false;
+
+        async function fetchPage(pageNum) {
+            const url = pageNum === 1
+                ? feed.url
+                : `${feed.url}?${feed.paginationParam}=${pageNum}`;
+
+            const res = await fetch(url);
+            if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
+
+            const html = await res.text();
+            const doc = new DOMParser().parseFromString(html, "text/html");
+            const scripts = doc.querySelectorAll("script[data-resource-item]");
+
+            return Array.from(scripts).map((s) => {
+                try {
+                    return JSON.parse(s.textContent);
+                } catch {
+                    return null;
+                }
+            }).filter(Boolean);
+        }
 
         async function fetchResources() {
             setLoading(true);
             setError(null);
 
-            const matchesFilters = (r) => {
-                const fd = r.fieldData;
+            const matchesFilters = (item) => {
                 const check = (field, set) => {
                     if (set.size === 0) return true;
-                    const vals = [].concat(fd[field] ?? []);
+                    const vals = [].concat(item[field] ?? []);
                     return vals.some((id) => set.has(id));
                 };
                 return (
-                    check(fields.verticals, activeFilters.verticals) &&
-                    check(fields.types, activeFilters.types) &&
-                    check(fields.topics, activeFilters.topics)
+                    check("verticals", activeFilters.verticals) &&
+                    check("types", activeFilters.types) &&
+                    check("topics", activeFilters.topics)
                 );
             };
 
             try {
-                const PAGE = 100;
-                let offset = 0;
-                let total = null;
                 let results = [];
+                let page = 1;
+                const MAX_PAGES = 30;
 
-                while (results.length < 4) {
-                    const res = await fetch(
-                        `https://api-cdn.webflow.com/v2/collections/${collectionId}/items/live?limit=${PAGE}&offset=${offset}&sortBy=createdOn&sortOrder=desc`,
-                        {
-                            headers: {
-                                Authorization: `Bearer ${siteTokenId}`,
-                                "accept-version": "2.0.0",
-                            },
-                        }
-                    );
+                while (results.length < 4 && page <= MAX_PAGES) {
+                    const items = await fetchPage(page);
+                    if (items.length === 0) break;
 
-                    if (!res.ok) {
-                        throw new Error(`API error ${res.status}`);
-                    }
+                    results = results.concat(items.filter(matchesFilters));
+                    page++;
 
-                    const data = await res.json();
-
-                    if (total === null) {
-                        total = data.pagination?.total ?? 0;
-                    }
-
-                    const matched = (data.items ?? [])
-                        .filter((r) => !r.isDraft && !r.isArchived)
-                        .filter(matchesFilters);
-
-                    results = results.concat(matched);
-
-                    offset += PAGE;
-
-                    if (offset >= total) break;
+                    if (cancelled) return;
                 }
 
                 if (!cancelled) setResources(results.slice(0, 4));
@@ -195,7 +174,7 @@ export default function ResourcesGridCards(props) {
         return () => {
             cancelled = true;
         };
-    }, [dataSource, collectionId, siteTokenId, filterKey]);
+    }, [dataSource, feed.url, feed.paginationParam, filterKey]);
 
     if (loading) return <div>Loading…</div>;
     if (error) return <div>Error: {error}</div>;
@@ -213,7 +192,6 @@ export default function ResourcesGridCards(props) {
                         resource={featuredResource}
                         size="big"
                         getLabelsByIds={getLabelsByIds}
-                        fields={fields}
                     />
                 </div>
             )}
@@ -227,7 +205,6 @@ export default function ResourcesGridCards(props) {
                             resource={resource}
                             size="small"
                             getLabelsByIds={getLabelsByIds}
-                            fields={fields}
                         />
                     ))}
                 </div>

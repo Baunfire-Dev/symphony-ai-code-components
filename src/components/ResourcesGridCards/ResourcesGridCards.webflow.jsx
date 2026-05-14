@@ -10,27 +10,39 @@ export default declareComponent(ResourcesGridCards, {
         ssr: false,
     },
     props: {
-        siteTokenId: props.Text({
-            name: "Site Token ID",
-            defaultValue: "6c2e25dab47b0bb680017fe74d4fef0e8f85a2d539574e0089a9f3a16d1dbdb9",
+        resourcesFeedUrl: props.Text({
+            name: "Resources Feed URL",
+            defaultValue: "/data/resources",
             group: 'Tokens',
             tooltip: 'Critical prop — only edit if you know what you are doing.',
         }),
-        eventsWebinarCollectionId: props.Text({
-            name: "Events & Webinar Collection ID",
-            defaultValue: "69cd6967f180f09bb818bf03",
+        resourcesPaginationParam: props.Text({
+            name: "Resources Pagination Param",
+            defaultValue: "9f1b8a28",
             group: 'Tokens',
             tooltip: 'Critical prop — only edit if you know what you are doing.',
         }),
-        newsCollectionId: props.Text({
-            name: "News Collection ID",
-            defaultValue: "69cd6967f180f09bb818bee4",
+        newsFeedUrl: props.Text({
+            name: "News Feed URL",
+            defaultValue: "/data/news",
             group: 'Tokens',
             tooltip: 'Critical prop — only edit if you know what you are doing.',
         }),
-        resourcesCollectionId: props.Text({
-            name: "Resources Collection ID",
-            defaultValue: "69cd6967f180f09bb818bf1b",
+        newsPaginationParam: props.Text({
+            name: "News Pagination Param",
+            defaultValue: "",
+            group: 'Tokens',
+            tooltip: 'Critical prop — only edit if you know what you are doing.',
+        }),
+        eventsFeedUrl: props.Text({
+            name: "Events & Webinars Feed URL",
+            defaultValue: "/data/events",
+            group: 'Tokens',
+            tooltip: 'Critical prop — only edit if you know what you are doing.',
+        }),
+        eventsPaginationParam: props.Text({
+            name: "Events & Webinars Pagination Param",
+            defaultValue: "",
             group: 'Tokens',
             tooltip: 'Critical prop — only edit if you know what you are doing.',
         }),

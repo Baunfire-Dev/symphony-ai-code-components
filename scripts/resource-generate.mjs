@@ -66,9 +66,10 @@ function generateProps(items, prefix) {
     return items
         .map((item) => {
             const name = item.fieldData?.[CONFIG.nameField] ?? item.id;
+            const slug = item.fieldData?.slug ?? item.id;
             const key = `${prefix}_${sanitizeKey(name)}`;
             const group = prefix[0].toUpperCase() + prefix.slice(1).toLowerCase();
-            return { key, id: item.id, name, group, type: prefix };
+            return { key, id: slug, name, group, type: prefix };
         })
         .sort((a, b) => a.name.localeCompare(b.name));
 }
@@ -104,27 +105,39 @@ export default declareComponent(ResourcesGridCards, {
         ssr: false,
     },
     props: {
-        siteTokenId: props.Text({
-            name: "Site Token ID",
-            defaultValue: ${JSON.stringify(CONFIG.token ?? "")},
+        resourcesFeedUrl: props.Text({
+            name: "Resources Feed URL",
+            defaultValue: "/data/resources",
             group: 'Tokens',
             tooltip: 'Critical prop — only edit if you know what you are doing.',
         }),
-        eventsWebinarCollectionId: props.Text({
-            name: "Events & Webinar Collection ID",
-            defaultValue: ${JSON.stringify(CONFIG.collections.eventsWebinar ?? "")},
+        resourcesPaginationParam: props.Text({
+            name: "Resources Pagination Param",
+            defaultValue: "9f1b8a28",
             group: 'Tokens',
             tooltip: 'Critical prop — only edit if you know what you are doing.',
         }),
-        newsCollectionId: props.Text({
-            name: "News Collection ID",
-            defaultValue: ${JSON.stringify(CONFIG.collections.news ?? "")},
+        newsFeedUrl: props.Text({
+            name: "News Feed URL",
+            defaultValue: "/data/news",
             group: 'Tokens',
             tooltip: 'Critical prop — only edit if you know what you are doing.',
         }),
-        resourcesCollectionId: props.Text({
-            name: "Resources Collection ID",
-            defaultValue: ${JSON.stringify(CONFIG.collections.resources ?? "")},
+        newsPaginationParam: props.Text({
+            name: "News Pagination Param",
+            defaultValue: "",
+            group: 'Tokens',
+            tooltip: 'Critical prop — only edit if you know what you are doing.',
+        }),
+        eventsFeedUrl: props.Text({
+            name: "Events & Webinars Feed URL",
+            defaultValue: "/data/events",
+            group: 'Tokens',
+            tooltip: 'Critical prop — only edit if you know what you are doing.',
+        }),
+        eventsPaginationParam: props.Text({
+            name: "Events & Webinars Pagination Param",
+            defaultValue: "",
             group: 'Tokens',
             tooltip: 'Critical prop — only edit if you know what you are doing.',
         }),
@@ -150,15 +163,15 @@ export default declareComponent(ResourcesCards, {
         ssr: false,
     },
     props: {
-        siteTokenId: props.Text({
-            name: "Site Token ID",
-            defaultValue: ${JSON.stringify(CONFIG.token ?? "")},
+        resourcesFeedUrl: props.Text({
+            name: "Resources Feed URL",
+            defaultValue: "/data/resources",
             group: 'Tokens',
             tooltip: 'Critical prop — only edit if you know what you are doing.',
         }),
-        resourcesCollectionId: props.Text({
-            name: "Resources Collection ID",
-            defaultValue: ${JSON.stringify(CONFIG.collections.resources ?? "")},
+        resourcesPaginationParam: props.Text({
+            name: "Resources Pagination Param",
+            defaultValue: "9f1b8a28",
             group: 'Tokens',
             tooltip: 'Critical prop — only edit if you know what you are doing.',
         }), ${renderProps(allProps)}
