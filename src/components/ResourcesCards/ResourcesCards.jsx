@@ -2,16 +2,16 @@ import './ResourcesCards.css';
 import React, { useEffect, useMemo, useState } from "react";
 import FILTER_MAP from "./filterMap";
 
-function getFetchBase() {
+function getFetchOrigin() {
+    const WORKER_ORIGIN = "https://symphonyai.rcuer.workers.dev";
+
     if (typeof window === 'undefined') return '';
 
     const host = window.location.hostname;
 
     if (host.endsWith('.design.webflow.com')) {
-        const slug = host.replace('.design.webflow.com', '');
-        return `https://${slug}.webflow.io`;
+        return WORKER_ORIGIN;
     }
-
     return '';
 }
 
@@ -102,14 +102,14 @@ export default function ResourcesCards(props) {
 
         let cancelled = false;
 
-        const baseUrl = getFetchBase();
+        const fetchOrigin = getFetchOrigin();
 
         async function fetchPage(pageNum) {
             const path = pageNum === 1
                 ? resourcesFeedUrl
                 : `${resourcesFeedUrl}?${resourcesPaginationParam}=${pageNum}`;
 
-            const res = await fetch(`${baseUrl}${path}`);
+            const res = await fetch(`${fetchOrigin}${path}`);
             if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
 
             const html = await res.text();
