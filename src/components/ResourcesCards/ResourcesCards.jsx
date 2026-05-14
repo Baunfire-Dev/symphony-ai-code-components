@@ -15,6 +15,13 @@ function getFetchOrigin() {
     return '';
 }
 
+function decodeEntities(str) {
+    if (typeof str !== 'string') return str;
+    const txt = document.createElement('textarea');
+    txt.innerHTML = str;
+    return txt.value;
+}
+
 function ResourceCard({ resource, size = "small", getLabelsBySlugs }) {
     const date = new Date(resource.date);
     const formattedDate = `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
@@ -124,6 +131,11 @@ export default function ResourcesCards(props) {
                 let main;
                 try {
                     main = JSON.parse(mainScript.textContent);
+                    for (const key in main) {
+                        if (typeof main[key] === 'string') {
+                            main[key] = decodeEntities(main[key]);
+                        }
+                    }
                 } catch {
                     return null;
                 }
