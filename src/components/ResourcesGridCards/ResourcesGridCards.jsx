@@ -28,7 +28,7 @@ function ResourceCard({ type, resource, size = "small", getLabelsByIds }) {
                         <img
                             loading="lazy"
                             src={resource.logoUrl}
-                            alt={resource.logoAlt || ""}
+                            alt="logo image"
                             className="lnre-c-image"
                         />
                     )}

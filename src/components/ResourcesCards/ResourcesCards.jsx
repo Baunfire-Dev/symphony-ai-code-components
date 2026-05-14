@@ -39,7 +39,7 @@ function ResourceCard({ resource, size = "small", getLabelsBySlugs }) {
                     <img
                         loading="lazy"
                         src={resource.featuredImage}
-                        alt=""
+                        alt="resource-image"
                         className="src-c-image"
                     />
                 )}
@@ -118,7 +118,7 @@ export default function ResourcesCards(props) {
             const itemWrappers = doc.querySelectorAll(".data-row");
 
             return Array.from(itemWrappers).map((wrapper) => {
-                const mainScript = wrapper.querySelector("script[data-resource-item]");
+                const mainScript = wrapper.querySelector("script[data-post-item]");
                 if (!mainScript) return null;
 
                 let main;
