@@ -33,7 +33,7 @@ export default declareComponent(Heading, {
     text: props.Text({
       name: "Text",
       defaultValue: "Heading",
-      tooltip: "Use [[text]] to apply gradient styling. Example: This is [[highlighted text]]",
+      tooltip: "Use [[text]] for gradient styling or {{text}} for highlight styling. Example: This is [[gradient text]] and this is {{highlighted text}}",
     }),
     align: props.Variant({
       name: "Text Alignment",
