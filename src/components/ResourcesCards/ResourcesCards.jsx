@@ -54,7 +54,7 @@ function ResourceCard({ resource, size = "small", getLabelsBySlugs }) {
 
             <div className="src-foot">
                 <div className="src-foot-inner">
-                    <div className="src-c-orb" data-color={resource.colors}></div>
+                    <div className="src-c-orb" color={resource.colors}></div>
                     <p className="src-c-tag">{topicNames.join(", ") || verticalNames.join(", ")}</p>
                 </div>
 
