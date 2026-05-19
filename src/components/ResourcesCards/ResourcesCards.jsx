@@ -30,6 +30,8 @@ function ResourceCard({ resource, size = "small", getLabelsBySlugs }) {
     const typeNames = getLabelsBySlugs(resource.types ?? [], "type");
     const topicNames = getLabelsBySlugs(resource.topics ?? [], "topic");
 
+    const color = getVerticalColor(resource.verticals);
+
     return (
         <div className={`src-card is-${size}`} key={resource.slug}>
             <a href={`/${resource.slug}`} className="src-c-link"></a>
@@ -54,7 +56,7 @@ function ResourceCard({ resource, size = "small", getLabelsBySlugs }) {
 
             <div className="src-foot">
                 <div className="src-foot-inner">
-                    <div className="src-c-orb" color={resource.colors}></div>
+                    <div className="src-c-orb" color={color}></div>
                     <p className="src-c-tag">{topicNames.join(", ") || verticalNames.join(", ")}</p>
                 </div>
 
@@ -102,6 +104,14 @@ export default function ResourcesCards(props) {
         return Object.values(FILTER_MAP)
             .filter((entry) => entry.type === type && slugs.includes(entry.id))
             .map((entry) => entry.name);
+    }
+
+    function getVerticalColor(slugs) {
+        if (!slugs || slugs.length === 0) return null;
+        const entry = Object.values(FILTER_MAP).find(
+            (e) => e.type === "vertical" && e.id === slugs[0]
+        );
+        return entry?.color ?? null;
     }
 
     useEffect(() => {
@@ -230,6 +240,7 @@ export default function ResourcesCards(props) {
                             resource={resource}
                             size="small"
                             getLabelsBySlugs={getLabelsBySlugs}
+                            getVerticalColor={getVerticalColor}
                         />
                     ))}
                 </div>

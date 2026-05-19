@@ -69,14 +69,21 @@ function generateProps(items, prefix) {
             const slug = item.fieldData?.slug ?? item.id;
             const key = `${prefix}_${sanitizeKey(name)}`;
             const group = prefix[0].toUpperCase() + prefix.slice(1).toLowerCase();
-            return { key, id: slug, name, group, type: prefix };
+
+            const data = { key, id: slug, name, group, type: prefix };
+
+            if (prefix == "vertical" && item.fieldData?.colors) {
+                data.color = item.fieldData?.colors;
+            }
+
+            return data;
         })
         .sort((a, b) => a.name.localeCompare(b.name));
 }
 
 function renderFilterMap(allProps) {
     const lines = allProps
-        .map(({ key, id, name, type }) => `${key}: { id: ${JSON.stringify(id)}, name: ${JSON.stringify(name)}, type: ${JSON.stringify(type)} },`)
+        .map(({ key, id, name, type, color }) => `${key}: { id: ${JSON.stringify(id)}, name: ${JSON.stringify(name)}, type: ${JSON.stringify(type)} ${type == 'vertical' ? ', color: ' + JSON.stringify(color) : '' }},`)
         .join("\n");
 
     return `const FILTER_MAP = {\n${lines}\n};\n\nexport default FILTER_MAP;\n`;

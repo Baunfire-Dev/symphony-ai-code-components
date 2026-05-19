@@ -81,13 +81,13 @@ export default declareComponent(ResourcesGridCards, {
             defaultValue: false,
             group: "Vertical"
         }),
-        type_analystReport: props.Boolean({ 
-            name: " Analyst report", 
+        type_academicPublication: props.Boolean({ 
+            name: "Academic publication", 
             defaultValue: false,
             group: "Type"
         }),
-        type_academicPublication: props.Boolean({ 
-            name: "Academic publication", 
+        type_analystReport: props.Boolean({ 
+            name: "Analyst report", 
             defaultValue: false,
             group: "Type"
         }),
