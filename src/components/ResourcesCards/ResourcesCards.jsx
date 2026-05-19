@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import FILTER_MAP from "./filterMap";
 
 function getFetchOrigin() {
-    const WORKER_ORIGIN = "https://symphonyai.rcuer.workers.dev";
+    const WORKER_ORIGIN = "https:/` /symphonyai.rcuer.workers.dev";
 
     if (typeof window === 'undefined') return '';
 
@@ -54,7 +54,7 @@ function ResourceCard({ resource, size = "small", getLabelsBySlugs }) {
 
             <div className="src-foot">
                 <div className="src-foot-inner">
-                    <div className="src-c-orb"></div>
+                    <div className="src-c-orb" data-color={resource.colors}></div>
                     <p className="src-c-tag">{topicNames.join(", ") || verticalNames.join(", ")}</p>
                 </div>
 
