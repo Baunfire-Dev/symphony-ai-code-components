@@ -7,6 +7,10 @@ export default declareComponent(Media, {
   description: '',
   group: 'Global',
   props: {
+    isVisible: props.Visibility({
+      name: "Visible",
+      defaultValue: true
+    }),
     type: props.Variant({
       name: "Type",
       defaultValue: "Image",
