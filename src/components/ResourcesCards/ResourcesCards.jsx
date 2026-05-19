@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import FILTER_MAP from "./filterMap";
 
 function getFetchOrigin() {
-    const WORKER_ORIGIN = "https:/` /symphonyai.rcuer.workers.dev";
+    const WORKER_ORIGIN = "https://symphonyai.rcuer.workers.dev";
 
     if (typeof window === 'undefined') return '';
 
