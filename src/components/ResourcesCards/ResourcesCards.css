@@ -97,35 +97,35 @@
 	height: 12px;
 	overflow: hidden;
 
-	&[color="Dark Purple"] {
+	&[color="5b5372061c3c9716cf0f5ed245f59967"] {
 		background: var(--_colors---violet);
 	}
 
-	&[color="Light Purple"] {
+	&[color="842cfb51cbfcfc5cf0ebbda75b6ade08"] {
 		background: var(--_colors---light-purple);
 	}
 
-	&[color="Pink"] {
+	&[color="f053d7f63102c60679fca2643e4a8a2d"] {
 		background: var(--_colors---magenta);
 	}
 
-	&[color="Orange"] {
+	&[color="e730233648e39a0882ed95730184a16c"] {
 		background: var(--_colors---orange);
 	}
 
-	&[color="Yellow"] {
+	&[color="52a43f1a8147d6c6a03305ee8989fcbc"] {
 		background: var(--_colors---yellow);
 	}
 
-	&[color="Light Blue"] {
+	&[color="69f27bac56a539118ef89130"] {
 		background: var(--_colors---lighter-blue);
 	}
 
-	&[color="Royal Blue"] {
+	&[color="b63c236f46ddef3665b8169bf09400fb"] {
 		background: var(--_colors---blue);
 	}
 
-	&[color="Green"] {
+	&[color="1d037f379671b238d01211125587bdb2"] {
 		background: var(--_colors---teal);
 	}
 }
