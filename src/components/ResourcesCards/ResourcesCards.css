@@ -97,37 +97,37 @@
 	height: 12px;
 	overflow: hidden;
 
-    &[data-color="Dark Purple"] {
-        background: var(--_colors---violet);
-    }
+	&[color="Dark Purple"] {
+		background: var(--_colors---violet);
+	}
 
-    &[data-color="Light Purple"] {
-        background: var(--_colors---light-purple);
-    }
+	&[color="Light Purple"] {
+		background: var(--_colors---light-purple);
+	}
 
-    &[data-color="Pink"] {
-        background: var(--_colors---magenta);
-    }
+	&[color="Pink"] {
+		background: var(--_colors---magenta);
+	}
 
-    &[data-color="Orange"] {
-        background: var(--_colors---orange);
-    }
+	&[color="Orange"] {
+		background: var(--_colors---orange);
+	}
 
-    &[data-color="Yellow"] {
-        background: var(--_colors---yellow);
-    }
+	&[color="Yellow"] {
+		background: var(--_colors---yellow);
+	}
 
-    &[data-color="Light Blue"] {
-        background: var(--_colors---lighter-blue);
-    }
+	&[color="Light Blue"] {
+		background: var(--_colors---lighter-blue);
+	}
 
-    &[data-color="Royal Blue"] {
-        background: var(--_colors---blue);
-    }
+	&[color="Royal Blue"] {
+		background: var(--_colors---blue);
+	}
 
-    &[data-color="Green"] {
-        background: var(--_colors---teal);
-    }
+	&[color="Green"] {
+		background: var(--_colors---teal);
+	}
 }
 
 .src-c-tag {
