@@ -22,7 +22,7 @@ function decodeEntities(str) {
     return txt.value;
 }
 
-function ResourceCard({ resource, size = "small", getLabelsBySlugs }) {
+function ResourceCard({ resource, size = "small", getLabelsBySlugs, getVerticalColor }) {
     const date = new Date(resource.date);
     const formattedDate = `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
 
@@ -228,6 +228,7 @@ export default function ResourcesCards(props) {
                         resource={featuredResource}
                         size="big"
                         getLabelsBySlugs={getLabelsBySlugs}
+                        getVerticalColor={getVerticalColor}
                     />
                 </div>
             )}
