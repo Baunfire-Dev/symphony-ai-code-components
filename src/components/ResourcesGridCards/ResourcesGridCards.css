@@ -59,7 +59,9 @@ p {
 }
 
 .lnre-c-type {
-	text-transform: uppercase;
+    font-size: var(--_size---type--paragraph-small);
+    text-transform: uppercase;
+    font-weight: 600;
 }
 
 .lnre-c-head-inner {
