@@ -48,7 +48,7 @@ export const SV2FullWidthImage = ({ isVisible, image, videoURL }) => {
           ref={videoRef}
           src={videoURL}
           controls
-          className="absolute inset-0 w-full h-full"
+          className="block absolute inset-0 w-full h-full"
         />
       )}
     </div>
