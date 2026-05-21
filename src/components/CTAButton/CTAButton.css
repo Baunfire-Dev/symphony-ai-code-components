@@ -166,4 +166,15 @@
 			}
 		}
 	}
+
+	&.outline-blue {
+		color: var(--_colors---blue);
+		background-color: transparent;
+		border: 1px solid var(--_colors---blue);
+
+		&:hover {
+			color: var(--_colors---white);
+			background-color: var(--_colors---blue);
+		}
+	}
 }

@@ -15,7 +15,7 @@ export default declareComponent(Heading, {
         textColor: props.Variant({
             name: "Text Color",
             defaultValue: "Default",
-            options: ["Default", "White", "Teal", "Blue", "Yellow", "Light Purple", "Magenta", "Light Blue"],
+            options: ["Default", "White", "Teal", "Blue", "Yellow", "Light Purple", "Magenta", "Light Blue", "Inherit"],
             tooltip: "Select text color",
         }),
         tag: props.Variant({
