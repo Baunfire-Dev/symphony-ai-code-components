@@ -19,7 +19,8 @@ export const Heading = ({ isVisible, textColor = "Default", tag: Tag = "h1", tex
         "Yellow": "yellow",
         "Light Purple": "light-purple",
         "Magenta": "magenta",
-        "Light Blue": "light-blue"
+        "Light Blue": "light-blue",
+        "Inherit": "inherit-color"
     }
 
     const headingAppearance = appearance && appearance !== "None" ? (appearanceMap[appearance] || appearance) : null;

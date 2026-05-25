@@ -9,6 +9,10 @@ h6 {
     font-weight: 500;
     color: var(--_colors---dark-gray);
 
+    &.inherit-color {
+        color: inherit;
+    }
+
     &.white {
         color: var(--_colors---white);
     }
