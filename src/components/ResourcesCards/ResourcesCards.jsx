@@ -213,9 +213,9 @@ export default function ResourcesCards(props) {
         };
     }, [resourcesFeedUrl, resourcesPaginationParam, filterKey]);
 
-    if (loading) return <div>Loading…</div>;
-    if (error) return <div>Error: {error}</div>;
-    if (!resources.length) return <div>No resources found.</div>;
+    if (loading) return <div class="layout-state loading">Loading…</div>;
+    if (error) return <div class="layout-state error">Error: {error}</div>;
+    if (!resources.length) return <div class="layout-state empty">No resources found.</div>;
 
     const featuredResource = resources[0];
     const secondaryResources = resources.slice(1);

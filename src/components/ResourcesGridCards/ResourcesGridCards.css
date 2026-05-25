@@ -23,7 +23,7 @@ p {
 	background-color: #f3f9fe;
 	border-radius: 12px;
 	flex-flow: column;
-	padding: 32px;
+	padding: 22px 32px 32px;
 	text-decoration: none;
 	display: flex;
 	position: relative;
@@ -85,6 +85,7 @@ p {
 	mix-blend-mode: multiply;
 	opacity: 0.5;
 	width: auto;
+    min-height: 32px;
 }
 
 .lnre-c-title {
@@ -111,4 +112,10 @@ p {
 			grid-column: auto;
 		}
 	}
+}
+
+.layout-state {
+    text-align: center;
+    width: 100%;
+    padding: 40px 0;
 }
