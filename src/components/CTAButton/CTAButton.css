@@ -53,6 +53,17 @@
 		}
 	}
 
+	&.black {
+		color: var(--_colors---white);
+		background-color: var(--_colors---dark-gray);
+		border: 1px solid var(--_colors---dark-gray);
+
+		&:hover {
+			color: var(--_colors---dark-gray);
+			background-color: transparent;
+		}
+	}
+
 	&.blue {
 		color: var(--_colors---white);
 		background-color: var(--_colors---blue);
@@ -164,6 +175,28 @@
 			&::after {
 				opacity: 1;
 			}
+		}
+	}
+
+	&.outline-white {
+		color: var(--_colors---white);
+		background-color: transparent;
+		border: 1px solid var(--_colors---white);
+
+		&:hover {
+			color: var(--_colors---dark-gray);
+			background-color: var(--_colors---white);
+		}
+	}
+
+	&.outline-black {
+		color: var(--_colors---dark-gray);
+		background-color: transparent;
+		border: 1px solid var(--_colors---dark-gray);
+
+		&:hover {
+			color: var(--_colors---white);
+			background-color: var(--_colors---dark-gray);
 		}
 	}
 

@@ -27,7 +27,7 @@ export default declareComponent(Media, {
       tooltip: "Enter a direct link to an MP4 video file (e.g., a direct Vimeo MP4 URL). Other page links are not supported.",
     }),
     videoThumbnail: props.Image({
-      name: "Vide Thumbnail",
+      name: "Video Thumbnail",
       group: "Video",
     }),
     controls: props.Boolean({
