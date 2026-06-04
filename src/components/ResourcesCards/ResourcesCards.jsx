@@ -74,6 +74,7 @@ export default function ResourcesCards(props) {
     const {
         resourcesFeedUrl = "/data/resources",
         resourcesPaginationParam = "",
+        count = 4,
         ...filterProps
     } = props;
 
@@ -188,7 +189,7 @@ export default function ResourcesCards(props) {
                 let page = 1;
                 const MAX_PAGES = 30;
 
-                while (results.length < 4 && page <= MAX_PAGES) {
+                while (results.length < count && page <= MAX_PAGES) {
                     const items = await fetchPage(page);
                     if (items.length === 0) break;
 
@@ -198,7 +199,7 @@ export default function ResourcesCards(props) {
                     if (cancelled) return;
                 }
 
-                if (!cancelled) setResources(results.slice(0, 4));
+                if (!cancelled) setResources(results.slice(0, count));
             } catch (err) {
                 if (!cancelled) setError(err.message);
             } finally {
@@ -211,7 +212,7 @@ export default function ResourcesCards(props) {
         return () => {
             cancelled = true;
         };
-    }, [resourcesFeedUrl, resourcesPaginationParam, filterKey]);
+    }, [resourcesFeedUrl, resourcesPaginationParam, filterKey, count]);
 
     if (loading) return <div class="layout-state loading">Loading…</div>;
     if (error) return <div class="layout-state error">Error: {error}</div>;

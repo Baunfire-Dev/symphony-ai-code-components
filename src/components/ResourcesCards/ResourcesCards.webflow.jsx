@@ -21,7 +21,14 @@ export default declareComponent(ResourcesCards, {
             defaultValue: "9f1b8a28",
             group: 'Tokens',
             tooltip: 'Critical prop — only edit if you know what you are doing.',
-        }), 
+        }),
+        count: props.Number({
+            name: "Number of Posts",
+            defaultValue: 4,
+            min: 2,
+            max: 100,
+            decimals: 0
+        }),
         vertical_ai: props.Boolean({ 
             name: "AI", 
             defaultValue: false,
