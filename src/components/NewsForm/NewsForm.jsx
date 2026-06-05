@@ -23,7 +23,7 @@ export const FooterForm = ({ industry: defaultIndustry }) => {
   };
 
   useEffect(() => {
-    const container = document.querySelector("#footer-form-container");
+    const container = document.querySelector("#news-form-container");
     if (!container) return;
     
     if (!industry || industry === "Choose an industry") {
