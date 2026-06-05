@@ -1,7 +1,7 @@
-import "./FooterForm.css"
+import "./NewsForm.css"
 import { useEffect, useState } from "react";
 
-export const FooterForm = ({ industry: defaultIndustry }) => {
+export const NewsForm = ({ industry: defaultIndustry }) => {
   const [industry, setIndustry] = useState(
     defaultIndustry === "Choose an industry" ? "" : defaultIndustry
   );
