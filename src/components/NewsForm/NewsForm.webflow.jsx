@@ -1,8 +1,8 @@
-import { FooterForm } from './NewsForm';
+import { NewsForm } from './NewsForm';
 import { props } from '@webflow/data-types';
 import { declareComponent } from '@webflow/react';
 
-export default declareComponent(FooterForm, {
+export default declareComponent(NewsForm, {
   name: 'NewsForm',
   description: '',
   props: {
