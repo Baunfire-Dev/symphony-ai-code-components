@@ -75,7 +75,7 @@ export const Media = ({
 
     return (
       <video
-        className="w-full aspect-[16/9] object-cover"
+        className="block w-full object-cover"
         autoPlay
         muted
         loop
