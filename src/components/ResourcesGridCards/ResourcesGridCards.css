@@ -62,6 +62,7 @@ p {
     font-size: var(--_size---type--paragraph-small);
     text-transform: uppercase;
     font-weight: 600;
+		letter-spacing: 0.1em;
 }
 
 .lnre-c-head-inner {
