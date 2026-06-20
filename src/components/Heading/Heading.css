@@ -41,6 +41,10 @@ h6 {
         color: var(--_colors---light-blue);
     }
 
+    &.lighter-purple {
+        color: var(--_colors---lighter-purple);
+    }
+
     .gradient-text {
         -webkit-text-fill-color: transparent;
         background: linear-gradient(90deg, #0074e8, #a933fb);

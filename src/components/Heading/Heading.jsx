@@ -20,6 +20,7 @@ export const Heading = ({ isVisible, textColor = "Default", tag: Tag = "h1", tex
         "Light Purple": "light-purple",
         "Magenta": "magenta",
         "Light Blue": "light-blue",
+        "Lighter Purple": "lighter-purple",
         "Inherit": "inherit-color"
     }
 
