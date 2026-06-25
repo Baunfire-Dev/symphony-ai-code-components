@@ -30,30 +30,30 @@ export const Heading = ({ isVisible, textColor = "Default", tag: Tag = "h1", tex
     const renderText = (text = "") => {
         if (typeof text !== "string") return text;
 
-        if (!text.includes("[[") && !text.includes("{{")) return text;
-
-        return text.split(/(\[\[.*?\]\]|\{\{.*?\}\})/g).map((part, i) => {
-            if (part.startsWith("[[") && part.endsWith("]]")) {
-                const clean = part.replace(/\[\[|\]\]/g, "");
-
-                return (
-                    <span key={i} className="gradient-text">
-                        {clean}
-                    </span>
-                );
+        return text.split(/(<br\s*\/?>)/gi).map((part, i) => {
+            if (/<br\s*\/?>/i.test(part)) {
+                return <br key={i} />;
             }
 
-            if (part.startsWith("{{") && part.endsWith("}}")) {
-                const clean = part.replace(/\{\{|\}\}/g, "");
+            return part.split(/(\[\[.*?\]\]|\{\{.*?\}\})/g).map((segment, j) => {
+                if (segment.startsWith("[[") && segment.endsWith("]]")) {
+                    return (
+                        <span key={`${i}-${j}`} className="gradient-text">
+                            {segment.replace(/\[\[|\]\]/g, "")}
+                        </span>
+                    );
+                }
 
-                return (
-                    <span key={i} className="highlight-text">
-                        {clean}
-                    </span>
-                );
-            }
+                if (segment.startsWith("{{") && segment.endsWith("}}")) {
+                    return (
+                        <span key={`${i}-${j}`} className="highlight-text">
+                            {segment.replace(/\{\{|\}\}/g, "")}
+                        </span>
+                    );
+                }
 
-            return part;
+                return segment;
+            });
         });
     };
 

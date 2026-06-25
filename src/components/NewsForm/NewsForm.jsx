@@ -23,7 +23,7 @@ export const NewsForm = ({ industry: defaultIndustry }) => {
   };
 
   useEffect(() => {
-    const container = document.querySelector("#news-form-container");
+    const container = document.querySelector("#news-form-inner-container");
     if (!container) return;
     
     if (!industry || industry === "Choose an industry") {
@@ -40,7 +40,7 @@ export const NewsForm = ({ industry: defaultIndustry }) => {
         region: "na1",
         portalId: portalId[industry],
         formId: formId[industry],
-        target: "#news-form-container",
+        target: "#news-form-inner-container",
       });
     };
 

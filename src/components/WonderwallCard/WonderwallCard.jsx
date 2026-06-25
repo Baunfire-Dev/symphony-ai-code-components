@@ -1,4 +1,6 @@
 import './WonderwallCard.css'
+import { useEffect, useRef, useState } from "react";
+
 export const WonderwallCard = ({
   cardColor = "None",
   iconColor = "Dark Gray",
@@ -13,6 +15,7 @@ export const WonderwallCard = ({
   footerLayout = 'Link',
   footerLinkText,
   footerLink,
+  pdfFile,
   personImage,
   personName,
   personPosition
@@ -35,11 +38,15 @@ export const WonderwallCard = ({
     "Orange" : "var(--_colors---orange)",
     "Purple" : "var(--_colors---light-purple)"
   }
+
+  const href = footerLink?.href && footerLink.href !== "#" ? footerLink.href : pdfFile?.href && pdfFile.href !== "#" ? pdfFile.href : undefined;
+
   return (
     <a
-      href={footerLink?.href}
-      target={footerLink?.target ?? "_self"}
-      className='relative'
+      href={href}
+      target={pdfFile?.href && pdfFile.href !== "#" ? "_blank" : "_self"}
+      rel={pdfFile?.href && pdfFile.href !== "#" ? "noopener noreferrer" : undefined}
+      className="relative"
     >
       <div className={`wonderwall-card ${theme === 'Light' ? '' : 'dark'}`} style={{backgroundColor: colors[cardColor]}}>
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
@@ -57,11 +64,26 @@ export const WonderwallCard = ({
           )}
         </div>
         <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'end', flex: 1}}>
-          <p className="wonderwall-title">{title}</p>
-          <div style={{display: 'flex', flexDirection: 'column', gap: '1.563rem'}}>
-            <p className="wonderwall-subtitle">{subtitle}</p>
-            <p className="wonderwall-description">{description}</p>
-          </div>
+          {title && (
+            <p className="wonderwall-title">
+              {title}
+            </p>
+          )}
+          {(subtitle || description) && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.563rem' }}>
+              {subtitle && (
+                <p className="wonderwall-subtitle">
+                  {subtitle}
+                </p>
+              )}
+
+              {description && (
+                <p className="wonderwall-description">
+                  {description}
+                </p>
+              )}
+            </div>
+          )}
         </div>
         <div style={{ marginTop: "24px" }}>
           {footerLayout === "Link" && (

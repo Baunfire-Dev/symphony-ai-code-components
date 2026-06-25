@@ -74,6 +74,10 @@ export default declareComponent(WonderwallCard, {
       name: "Footer Link",
       group: "Footer",
     }),
+    pdfFile: props.Link({
+      name: "File",
+      group: "Footer",
+    }),
     personImage: props.Image({
       name: "Person Image",
       group: "Footer",
