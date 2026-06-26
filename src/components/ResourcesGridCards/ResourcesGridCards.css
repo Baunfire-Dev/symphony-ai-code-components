@@ -55,7 +55,13 @@ p {
 .lnre-c-head {
 	display: flex;
 	flex-direction: column;
-	gap: 72px;
+	gap: 24px;
+}
+
+@media screen and (min-width: 992px) {
+	.lnre-c-head {
+		gap: 72px;
+	}
 }
 
 .lnre-c-type {
