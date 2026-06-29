@@ -25,12 +25,22 @@ function decodeEntities(str) {
 function ResourceCard({ type, resource, size = "small", getLabelsBySlugs }) {
     const typeNames = getLabelsBySlugs([].concat(resource.types ?? []), "type");
 
-    let slug = `/${resource.slug}`;
+    let href = `/${resource.slug}`;
+    let isExternal = false;
+
+    if (type === "Resources") {
+        href = resource.newResourceUrl || resource.externalUrl || href;
+        isExternal = !resource.newResourceUrl && !!resource.externalUrl;
+    }
 
     if (type === "Events & Webinars") {
-        slug = resource.externalUrl || slug;
-    } else if (type === "News") {
-        slug = resource.newsUrl || slug;
+        href = resource.externalUrl || href;
+        isExternal = !!resource.externalUrl;
+    } 
+    
+    if (type === "News") {
+        href = resource.newsUrl || href;
+        isExternal = !!resource.newsUrl;
     }
 
     const date = new Date(resource.date);
@@ -38,7 +48,7 @@ function ResourceCard({ type, resource, size = "small", getLabelsBySlugs }) {
 
     return (
         <div className={`lnre-card is-${size}`} key={resource.id}>
-            <a href={`${slug}`} className="lnre-c-link"></a>
+            <a href={`${href}`} target={isExternal ? "_blank" : "_self"} className="lnre-c-link"></a>
 
             <div className="lnre-c-head">
                 <div className="lnre-c-head-inner">
