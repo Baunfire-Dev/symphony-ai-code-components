@@ -32,9 +32,12 @@ function ResourceCard({ resource, size = "small", getLabelsBySlugs, getVerticalC
 
     const color = getVerticalColor(resource.verticals);
 
+    const href = resource.newResourceUrl || resource.externalUrl || `/${resource.slug}`;
+    const isExternal = !resource.newResourceUrl && !!resource.externalUrl;
+
     return (
         <div className={`src-card is-${size}`} key={resource.slug}>
-            <a href={`/${resource.slug}`} className="src-c-link"></a>
+            <a href={href} className="src-c-link" target={isExternal ? "_blank" : "_self"} rel={isExternal ? "noopener noreferrer" : undefined}></a>
 
             <div className="src-c-head">
                 <div className="src-c-head-inner">
