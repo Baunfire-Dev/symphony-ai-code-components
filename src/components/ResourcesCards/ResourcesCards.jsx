@@ -1,48 +1,40 @@
 import './ResourcesCards.css';
-import React, { useEffect, useMemo, useState } from "react";
-import FILTER_MAP from "./filterMap";
+import React, { useEffect, useState } from "react";
 
-function getFetchOrigin() {
-    const WORKER_ORIGIN = "https://symphonyai.rcuer.workers.dev";
+function ResourceCard({ resource, size = "small" }) {
+    const colorMap = {
+      "Dark Purple": "violet",
+      "Light Purple": "light-purple",
+      "Pink": "magenta",
+      "Orange": "orange",
+      "Yellow": "yellow",
+      "Light Blue": "light-blue",
+      "Royal Blue": "blue",
+      "Green": "teal",
+    };
 
-    if (typeof window === 'undefined') return '';
-
-    const host = window.location.hostname;
-
-    if (host.endsWith('.design.webflow.com')) {
-        return WORKER_ORIGIN;
-    }
-    return '';
-}
-
-function decodeEntities(str) {
-    if (typeof str !== 'string') return str;
-    const txt = document.createElement('textarea');
-    txt.innerHTML = str;
-    return txt.value;
-}
-
-function ResourceCard({ resource, size = "small", getLabelsBySlugs, getVerticalColor }) {
     const date = new Date(resource.date);
     const formattedDate = `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
 
-    const verticalNames = getLabelsBySlugs(resource.verticals ?? [], "vertical");
-    const typeNames = getLabelsBySlugs(resource.types ?? [], "type");
-    const topicNames = getLabelsBySlugs(resource.topics ?? [], "topic");
-
-    const color = getVerticalColor(resource.verticals);
-
-    const href = resource.newResourceUrl || resource.externalUrl || `/${resource.slug}`;
+    const href = resource.newResourceUrl || resource.externalUrl || `/resources/${resource.slug}`;
     const isExternal = !resource.newResourceUrl && !!resource.externalUrl;
 
     return (
-        <div className={`src-card is-${size}`} key={resource.slug}>
-            <a href={href} className="src-c-link" target={isExternal ? "_blank" : "_self"} rel={isExternal ? "noopener noreferrer" : undefined}></a>
+        <div className={`src-card is-${size}`}>
+            <a
+                href={href}
+                className="src-c-link"
+                target={isExternal ? "_blank" : "_self"}
+                rel={isExternal ? "noopener noreferrer" : undefined}
+            />
 
             <div className="src-c-head">
                 <div className="src-c-head-inner">
                     <p className="src-c-date">{formattedDate}</p>
-                    <p className="src-c-type">{typeNames.join(", ") || "Resource"}</p>
+
+                    <p className="src-c-type">
+                        {resource.types?.map((item) => item.name).join(", ") || "Resource"}
+                    </p>
                 </div>
 
                 <p className="src-c-title">{resource.name}</p>
@@ -50,8 +42,8 @@ function ResourceCard({ resource, size = "small", getLabelsBySlugs, getVerticalC
                 {resource.featuredImage && (
                     <img
                         loading="lazy"
-                        src={resource.featuredImage}
-                        alt="resource-image"
+                        src={resource.featuredImage.url}
+                        alt={resource.featuredImage.alt || "resource-image"}
                         className="src-c-image"
                     />
                 )}
@@ -59,13 +51,30 @@ function ResourceCard({ resource, size = "small", getLabelsBySlugs, getVerticalC
 
             <div className="src-foot">
                 <div className="src-foot-inner">
-                    <div className="src-c-orb" color={color}></div>
-                    <p className="src-c-tag">{topicNames.join(", ") || verticalNames.join(", ")}</p>
+                    <div className="src-c-orb" color={colorMap[resource.verticals[0].color]}></div>
+
+                    <p className="src-c-tag">
+                        {
+                            resource.verticals?.map((item) => item.name).join(", ") ||
+                            resource.topics?.map((item) => item.name).join(", ") ||
+                            "Resource"
+                        }
+                    </p>
                 </div>
 
                 <div className="src-c-arrow">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="14" viewBox="0 0 26 14" fill="none">
-                        <path d="M18.913 1L25 7M25 7L18.913 13M25 7L1 7" stroke="#0074E8" strokeLinecap="square"></path>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="26"
+                        height="14"
+                        viewBox="0 0 26 14"
+                        fill="none"
+                    >
+                        <path
+                            d="M18.913 1L25 7M25 7L18.913 13M25 7L1 7"
+                            stroke="#0074E8"
+                            strokeLinecap="square"
+                        />
                     </svg>
                 </div>
             </div>
@@ -75,181 +84,164 @@ function ResourceCard({ resource, size = "small", getLabelsBySlugs, getVerticalC
 
 export default function ResourcesCards(props) {
     const {
-        resourcesFeedUrl = "/data/resources",
-        resourcesPaginationParam = "",
         count = 4,
         ...filterProps
     } = props;
 
     const [resources, setResources] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
-    const filterKey = useMemo(
-        () => Object.keys(FILTER_MAP).filter((k) => filterProps[k]).sort().join("|"),
-        [filterProps]
-    );
+    const filterMap = {
+        // Vertical
+        vertical_ai: { group: "vertical", name: "AI" },
+        vertical_enterpriseIt: { group: "vertical", name: "Enterprise IT" },
+        vertical_financialServices: { group: "vertical", name: "Financial Services" },
+        vertical_industrial: { group: "vertical", name: "Industrial" },
+        vertical_media: { group: "vertical", name: "Media" },
+        vertical_retailCpg: { group: "vertical", name: "Retail / CPG" },
 
-    const activeFilters = useMemo(() => {
-        const verticals = new Set();
-        const types = new Set();
-        const topics = new Set();
+        // Type
+        type_academicPublication: { group: "type", name: "Academic publication" },
+        type_analystReport: { group: "type", name: "Analyst report" },
+        type_artificialIntelligence: { group: "type", name: "Artificial intelligence" },
+        type_blog: { group: "type", name: "Blog" },
+        type_byline: { group: "type", name: "Byline" },
+        type_caseStudy: { group: "type", name: "Case study" },
+        type_coverage: { group: "type", name: "Coverage" },
+        type_dataSheet: { group: "type", name: "Data sheet" },
+        type_default: { group: "type", name: "Default" },
+        type_demo: { group: "type", name: "Demo" },
+        type_ebook: { group: "type", name: "Ebook" },
+        type_industryEvent: { group: "type", name: "Industry event" },
+        type_infographic: { group: "type", name: "Infographic" },
+        type_insuranceInsight: { group: "type", name: "Insurance insight" },
+        type_itOperation: { group: "type", name: "IT operation" },
+        type_mediaCoverage: { group: "type", name: "Media Coverage" },
+        type_partner: { group: "type", name: "Partner" },
+        type_podcast: { group: "type", name: "Podcast" },
+        type_pressRelease: { group: "type", name: "Press release" },
+        type_solutionVideo: { group: "type", name: "Solution video" },
+        type_video: { group: "type", name: "Video" },
+        type_videoSeries: { group: "type", name: "Video series" },
+        type_virtualIndustryEvent: { group: "type", name: "Virtual industry event" },
+        type_webinar: { group: "type", name: "Webinar" },
+        type_whitePaper: { group: "type", name: "White paper" },
 
-        for (const [key, { id, type }] of Object.entries(FILTER_MAP)) {
-            if (!filterProps[key]) continue;
-            if (type === "vertical") verticals.add(id);
-            else if (type === "type") types.add(id);
-            else if (type === "topic") topics.add(id);
-        }
-        return { verticals, types, topics };
-    }, [filterKey]);
-
-    function getLabelsBySlugs(slugs, type) {
-        return Object.values(FILTER_MAP)
-            .filter((entry) => entry.type === type && slugs.includes(entry.id))
-            .map((entry) => entry.name);
-    }
-
-    function getVerticalColor(slugs) {
-        if (!slugs || slugs.length === 0) return null;
-        const entry = Object.values(FILTER_MAP).find(
-            (e) => e.type === "vertical" && e.id === slugs[0]
-        );
-        return entry?.color ?? null;
-    }
+        // Topic
+        topic_cpg: { group: "topic", name: "CPG" },
+        topic_finserveCdd: { group: "topic", name: "FinServe CDD" },
+        topic_finserveKyc: { group: "topic", name: "FinServe KYC" },
+        topic_finserveSanctionsScreening: { group: "topic", name: "FinServe Sanctions Screening" },
+        topic_fsAgentic: { group: "topic", name: "FS Agentic" },
+        topic_industrialConnectedWorker: { group: "topic", name: "Industrial Connected Worker" },
+        topic_industrialDataops: { group: "topic", name: "Industrial DataOps" },
+        topic_industrialUnifiedNamespace: { group: "topic", name: "Industrial Unified Namespace" },
+        topic_mediaStreaming: { group: "topic", name: "Media Streaming" },
+        topic_retailCategoryManagement: { group: "topic", name: "Retail Category Management" },
+        topic_retailContentMonetization: { group: "topic", name: "Retail Content Monetization" },
+        topic_retailDemandForecasting: { group: "topic", name: "Retail Demand Forecasting" },
+        topic_retailGrocery: { group: "topic", name: "Retail Grocery" },
+        topic_retailMerchandising: { group: "topic", name: "Retail Merchandising" },
+        topic_retailStoreOperations: { group: "topic", name: "Retail Store Operations" },
+        topic_retailSupplyChain: { group: "topic", name: "Retail Supply Chain" },
+        topic_verticalAi: { group: "topic", name: "Vertical AI" }
+    };
 
     useEffect(() => {
-        if (!resourcesFeedUrl) return;
-
-        let cancelled = false;
-
-        const fetchOrigin = getFetchOrigin();
-
-        async function fetchPage(pageNum) {
-            const path = pageNum === 1
-                ? resourcesFeedUrl
-                : `${resourcesFeedUrl}?${resourcesPaginationParam}=${pageNum}`;
-
-            const res = await fetch(`${fetchOrigin}${path}`);
-            if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
-
-            const html = await res.text();
-            const doc = new DOMParser().parseFromString(html, "text/html");
-
-            const itemWrappers = doc.querySelectorAll(".data-row");
-
-            return Array.from(itemWrappers).map((wrapper) => {
-                const mainScript = wrapper.querySelector("script[data-post-item]");
-                if (!mainScript) return null;
-
-                let main;
-                try {
-                    main = JSON.parse(mainScript.textContent);
-                    for (const key in main) {
-                        if (typeof main[key] === 'string') {
-                            main[key] = decodeEntities(main[key]);
-                        }
-                    }
-                } catch {
-                    return null;
-                }
-
-                const parseSlugs = (selector) =>
-                    Array.from(wrapper.querySelectorAll(selector))
-                        .map((s) => {
-                            try { return JSON.parse(s.textContent).slug; }
-                            catch { return null; }
-                        })
-                        .filter(Boolean);
-
-                return {
-                    ...main,
-                    verticals: parseSlugs("script[data-vertical]"),
-                    types: parseSlugs("script[data-type]"),
-                    topics: parseSlugs("script[data-topic]"),
-                };
-            }).filter(Boolean);
-        }
-
-        async function fetchResources() {
-            setLoading(true);
-            setError(null);
-
-            const matchesFilters = (item) => {
-                const check = (vals, set) => {
-                    if (set.size === 0) return true;
-                    return (vals ?? []).some((slug) => set.has(slug));
-                };
-                return (
-                    check(item.verticals, activeFilters.verticals) &&
-                    check(item.types, activeFilters.types) &&
-                    check(item.topics, activeFilters.topics)
-                );
-            };
-
+        async function loadResources() {
             try {
-                let results = [];
-                let page = 1;
-                const MAX_PAGES = 30;
+                const res = await fetch(
+                    "https://symphonyai-resources.jjimenez-3e7.workers.dev/"
+                );
 
-                while (results.length < count && page <= MAX_PAGES) {
-                    const items = await fetchPage(page);
-                    if (items.length === 0) break;
+                const data = await res.json();
 
-                    results = results.concat(items.filter(matchesFilters));
-                    page++;
+                const sortedResources = [...(data.items || [])].sort(
+                    (a, b) => new Date(b.date) - new Date(a.date)
+                );
 
-                    if (cancelled) return;
-                }
+                const activeFilters = Object.entries(filterProps)
+                    .filter(([_, value]) => value === true)
+                    .map(([key]) => filterMap[key])
+                    .filter(Boolean);
 
-                if (!cancelled) setResources(results.slice(0, count));
-            } catch (err) {
-                if (!cancelled) setError(err.message);
+                const filtersByGroup = {
+                    vertical: activeFilters.filter((f) => f.group === "vertical"),
+                    type: activeFilters.filter((f) => f.group === "type"),
+                    topic: activeFilters.filter((f) => f.group === "topic")
+                };
+
+                const filteredResources = sortedResources.filter((resource) => {
+                    const matchGroup = (filters, items) => {
+                        if (!filters.length) return true;
+
+                        return filters.some((filter) =>
+                            items?.some((item) => item.name === filter.name)
+                        );
+                    };
+
+                    return (
+                        matchGroup(filtersByGroup.vertical, resource.verticals) &&
+                        matchGroup(filtersByGroup.type, resource.types) &&
+                        matchGroup(filtersByGroup.topic, resource.topics)
+                    );
+                });
+
+                setResources(filteredResources.slice(0, count));
+
+            } catch (error) {
+                console.error("Failed to load resources:", error);
             } finally {
-                if (!cancelled) setLoading(false);
+                setLoading(false);
             }
         }
 
-        fetchResources();
+        loadResources();
+    }, [count, ...Object.values(filterProps)]);
 
-        return () => {
-            cancelled = true;
-        };
-    }, [resourcesFeedUrl, resourcesPaginationParam, filterKey, count]);
-
-    if (loading) return <div class="layout-state loading">Loading…</div>;
-    if (error) return <div class="layout-state error">Error: {error}</div>;
-    if (!resources.length) return <div class="layout-state empty">No resources found.</div>;
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     const featuredResource = resources[0];
     const secondaryResources = resources.slice(1);
 
     return (
-        <div className="src-cards">
-            {featuredResource && (
-                <div className="src-card-outer is-single">
-                    <ResourceCard
-                        resource={featuredResource}
-                        size="big"
-                        getLabelsBySlugs={getLabelsBySlugs}
-                        getVerticalColor={getVerticalColor}
-                    />
-                </div>
-            )}
-
-            {secondaryResources.length > 0 && (
-                <div className="src-card-outer is-multiple">
-                    {secondaryResources.map((resource) => (
+        <>
+            {count < 4 ? (
+                <div className="src-cards-flex-grid">
+                    {resources.map((resource) => (
                         <ResourceCard
                             key={resource.slug}
                             resource={resource}
-                            size="small"
-                            getLabelsBySlugs={getLabelsBySlugs}
-                            getVerticalColor={getVerticalColor}
+                            size="big"
                         />
                     ))}
                 </div>
+            ) : (
+                <div className="src-cards">
+                    {featuredResource && (
+                        <div className="src-card-outer is-single">
+                            <ResourceCard
+                                resource={featuredResource}
+                                size="big"
+                            />
+                        </div>
+                    )}
+
+                    {secondaryResources.length > 0 && (
+                        <div className="src-card-outer is-multiple">
+                            {secondaryResources.map((resource) => (
+                                <ResourceCard
+                                    key={resource.slug}
+                                    resource={resource}
+                                    size="small"
+                                />
+                            ))}
+                        </div>
+                    )}
+                </div>
             )}
-        </div>
+        </>
     );
 }

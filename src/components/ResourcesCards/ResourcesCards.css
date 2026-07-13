@@ -17,6 +17,17 @@
 	gap: 16px;
 }
 
+.src-cards-flex-grid {
+	display: flex;
+	align-items: stretch;
+	gap: 16px;
+
+	.src-card {
+		flex: 1 1 calc((100% - 32px) / 3);
+		height: auto;
+	}
+}
+
 /* .src-card-outer.is-single {
 	grid-column: span 3;
 } */
@@ -112,35 +123,35 @@
 	flex-shrink: 0;
 	overflow: hidden;
 
-	&[color="5b5372061c3c9716cf0f5ed245f59967"] {
+	&[color="violet"] {
 		background: var(--_colors---violet);
 	}
 
-	&[color="842cfb51cbfcfc5cf0ebbda75b6ade08"] {
+	&[color="light-purple"] {
 		background: var(--_colors---light-purple);
 	}
 
-	&[color="f053d7f63102c60679fca2643e4a8a2d"] {
+	&[color="magenta"] {
 		background: var(--_colors---magenta);
 	}
 
-	&[color="e730233648e39a0882ed95730184a16c"] {
+	&[color="orange"] {
 		background: var(--_colors---orange);
 	}
 
-	&[color="52a43f1a8147d6c6a03305ee8989fcbc"] {
+	&[color="yellow"] {
 		background: var(--_colors---yellow);
 	}
 
-	&[color="bd7a64ff38c52f209bd61db261967a49"] {
+	&[color="lighter-blue"] {
 		background: var(--_colors---lighter-blue);
 	}
 
-	&[color="b63c236f46ddef3665b8169bf09400fb"] {
+	&[color="blue"] {
 		background: var(--_colors---blue);
 	}
 
-	&[color="1d037f379671b238d01211125587bdb2"] {
+	&[color="teal"] {
 		background: var(--_colors---teal);
 	}
 }
@@ -203,6 +214,14 @@
 		/* grid-template-columns: repeat(2, minmax(0, 1fr)); */
 		align-items: stretch;
 		flex-direction: column;
+	}
+
+	.src-cards-flex-grid {
+		flex-direction: column;
+
+		.src-card {
+			flex: 1 1 auto;
+		}
 	}
 
 	.src-card-outer.is-single {

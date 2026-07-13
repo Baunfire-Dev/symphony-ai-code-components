@@ -10,18 +10,6 @@ export default declareComponent(ResourcesCards, {
         ssr: false,
     },
     props: {
-        resourcesFeedUrl: props.Text({
-            name: "Resources Feed URL",
-            defaultValue: "/data/resources",
-            group: 'Tokens',
-            tooltip: 'Critical prop — only edit if you know what you are doing.',
-        }),
-        resourcesPaginationParam: props.Text({
-            name: "Resources Pagination Param",
-            defaultValue: "9f1b8a28",
-            group: 'Tokens',
-            tooltip: 'Critical prop — only edit if you know what you are doing.',
-        }),
         count: props.Number({
             name: "Number of Posts",
             defaultValue: 4,

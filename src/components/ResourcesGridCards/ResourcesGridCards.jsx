@@ -29,17 +29,17 @@ function ResourceCard({ type, resource, size = "small", getLabelsBySlugs }) {
     let isExternal = false;
 
     if (type === "Resources") {
-        href = resource.newResourceUrl || resource.externalUrl || href;
+        href = resource.newResourceUrl || resource.externalUrl || `/resources/${href}`;
         isExternal = !resource.newResourceUrl && !!resource.externalUrl;
     }
 
     if (type === "Events & Webinars") {
-        href = resource.externalUrl || href;
+        href = resource.externalUrl || `/webinars-events/${href}`;
         isExternal = !!resource.externalUrl;
     } 
     
     if (type === "News") {
-        href = resource.newsUrl || href;
+        href = resource.newsUrl || `/news${href}`;
         isExternal = !!resource.newsUrl;
     }
 
