@@ -1,6 +1,5 @@
 import './ResourcesGridCards.css';
-import React, { useEffect, useMemo, useState } from "react";
-import FILTER_MAP from "./filterMap";
+import React, { useEffect, useState } from "react";
 
 function getFetchOrigin() {
     const WORKER_ORIGIN = "https://symphonyai.rcuer.workers.dev";
@@ -22,25 +21,18 @@ function decodeEntities(str) {
     return txt.value;
 }
 
-function ResourceCard({ type, resource, size = "small", getLabelsBySlugs }) {
-    const typeNames = getLabelsBySlugs([].concat(resource.types ?? []), "type");
-
-    let href = `/${resource.slug}`;
+function ResourceCard({ type, resource, size = "small" }) {
+    let href = resource.slug;
     let isExternal = false;
 
     if (type === "Resources") {
-        href = resource.newResourceUrl || resource.externalUrl || `/resources/${href}`;
+        href = resource.newResourceUrl || resource.externalUrl || href;
         isExternal = !resource.newResourceUrl && !!resource.externalUrl;
     }
 
-    if (type === "Events & Webinars") {
-        href = resource.externalUrl || `/webinars-events/${href}`;
+    if (type === "Events & Webinars" || type === "News") {
+        href = resource.externalUrl || href;
         isExternal = !!resource.externalUrl;
-    } 
-    
-    if (type === "News") {
-        href = resource.newsUrl || `/news${href}`;
-        isExternal = !!resource.newsUrl;
     }
 
     const date = new Date(resource.date);
@@ -48,17 +40,17 @@ function ResourceCard({ type, resource, size = "small", getLabelsBySlugs }) {
 
     return (
         <div className={`lnre-card is-${size}`} key={resource.id}>
-            <a href={`${href}`} target={isExternal ? "_blank" : "_self"} className="lnre-c-link"></a>
+            <a href={href} target={isExternal ? "_blank" : "_self"} className="lnre-c-link"></a>
 
             <div className="lnre-c-head">
                 <div className="lnre-c-head-inner">
-                    <p className="lnre-c-type">{typeNames.join(", ")}</p>
+                    <p className="lnre-c-type">{resource.types?.map((item) => item.name).join(", ") || type}</p>
 
-                    {(type === "News" && resource.logoUrl) && (
+                    {(type === "News" && resource.logo) && (
                         <img
                             loading="lazy"
-                            src={resource.logoUrl}
-                            alt="logo image"
+                            src={resource.logo.url}
+                            alt={resource.logo.alt || "logo image"}
                             className="lnre-c-image"
                         />
                     )}
@@ -82,185 +74,194 @@ function ResourceCard({ type, resource, size = "small", getLabelsBySlugs }) {
 
 export default function ResourcesGridCards(props) {
     const {
-        resourcesFeedUrl = "/data/resources",
-        resourcesPaginationParam = "",
-        newsFeedUrl = "/data/news",
-        newsPaginationParam = "",
-        eventsFeedUrl = "/data/events",
-        eventsPaginationParam = "",
         dataSource = "Resources",
         ...filterProps
     } = props;
 
-    let feedUrl, paginationParam;
-    if (dataSource === "News") {
-        feedUrl = newsFeedUrl;
-        paginationParam = newsPaginationParam;
-    } else if (dataSource === "Events & Webinars") {
-        feedUrl = eventsFeedUrl;
-        paginationParam = eventsPaginationParam;
-    } else {
-        feedUrl = resourcesFeedUrl;
-        paginationParam = resourcesPaginationParam;
-    }
-
     const [resources, setResources] = useState([]);
+    const [news, setNews] = useState([]);
+    const [webinarEvents, setWebinarEvents] = useState([]);
+
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
-    const filterKey = useMemo(
-        () => Object.keys(FILTER_MAP).filter((k) => filterProps[k]).sort().join("|"),
-        [filterProps]
-    );
+    const filterMap = {
+        // Vertical
+        vertical_ai: { group: "vertical", name: "AI" },
+        vertical_enterpriseIt: { group: "vertical", name: "Enterprise IT" },
+        vertical_financialServices: { group: "vertical", name: "Financial Services" },
+        vertical_industrial: { group: "vertical", name: "Industrial" },
+        vertical_media: { group: "vertical", name: "Media" },
+        vertical_retailCpg: { group: "vertical", name: "Retail / CPG" },
 
-    const activeFilters = useMemo(() => {
-        const verticals = new Set();
-        const types = new Set();
-        const topics = new Set();
+        // Type
+        type_academicPublication: { group: "type", name: "Academic publication" },
+        type_analystReport: { group: "type", name: "Analyst report" },
+        type_artificialIntelligence: { group: "type", name: "Artificial intelligence" },
+        type_blog: { group: "type", name: "Blog" },
+        type_byline: { group: "type", name: "Byline" },
+        type_caseStudy: { group: "type", name: "Case study" },
+        type_coverage: { group: "type", name: "Coverage" },
+        type_dataSheet: { group: "type", name: "Data sheet" },
+        type_default: { group: "type", name: "Default" },
+        type_demo: { group: "type", name: "Demo" },
+        type_ebook: { group: "type", name: "Ebook" },
+        type_industryEvent: { group: "type", name: "Industry event" },
+        type_infographic: { group: "type", name: "Infographic" },
+        type_insuranceInsight: { group: "type", name: "Insurance insight" },
+        type_itOperation: { group: "type", name: "IT operation" },
+        type_mediaCoverage: { group: "type", name: "Media Coverage" },
+        type_partner: { group: "type", name: "Partner" },
+        type_podcast: { group: "type", name: "Podcast" },
+        type_pressRelease: { group: "type", name: "Press release" },
+        type_solutionVideo: { group: "type", name: "Solution video" },
+        type_video: { group: "type", name: "Video" },
+        type_videoSeries: { group: "type", name: "Video series" },
+        type_virtualIndustryEvent: { group: "type", name: "Virtual industry event" },
+        type_webinar: { group: "type", name: "Webinar" },
+        type_whitePaper: { group: "type", name: "White paper" },
 
-        for (const [key, { id, type }] of Object.entries(FILTER_MAP)) {
-            if (!filterProps[key]) continue;
-            if (type === "vertical") verticals.add(id);
-            else if (type === "type") types.add(id);
-            else if (type === "topic") topics.add(id);
-        }
-        return { verticals, types, topics };
-    }, [filterKey]);
-
-    function getLabelsBySlugs(slugs, type) {
-        return Object.values(FILTER_MAP)
-            .filter((entry) => entry.type === type && slugs.includes(entry.id))
-            .map((entry) => entry.name);
-    }
+        // Topic
+        topic_cpg: { group: "topic", name: "CPG" },
+        topic_finserveCdd: { group: "topic", name: "FinServe CDD" },
+        topic_finserveKyc: { group: "topic", name: "FinServe KYC" },
+        topic_finserveSanctionsScreening: { group: "topic", name: "FinServe Sanctions Screening" },
+        topic_fsAgentic: { group: "topic", name: "FS Agentic" },
+        topic_industrialConnectedWorker: { group: "topic", name: "Industrial Connected Worker" },
+        topic_industrialDataops: { group: "topic", name: "Industrial DataOps" },
+        topic_industrialUnifiedNamespace: { group: "topic", name: "Industrial Unified Namespace" },
+        topic_mediaStreaming: { group: "topic", name: "Media Streaming" },
+        topic_retailCategoryManagement: { group: "topic", name: "Retail Category Management" },
+        topic_retailContentMonetization: { group: "topic", name: "Retail Content Monetization" },
+        topic_retailDemandForecasting: { group: "topic", name: "Retail Demand Forecasting" },
+        topic_retailGrocery: { group: "topic", name: "Retail Grocery" },
+        topic_retailMerchandising: { group: "topic", name: "Retail Merchandising" },
+        topic_retailStoreOperations: { group: "topic", name: "Retail Store Operations" },
+        topic_retailSupplyChain: { group: "topic", name: "Retail Supply Chain" },
+        topic_verticalAi: { group: "topic", name: "Vertical AI" }
+    };
 
     useEffect(() => {
-        if (!feedUrl) return;
-        
-        const fetchOrigin = getFetchOrigin();
+        function getFilteredItems(items) {
+            const activeFilters = Object.entries(filterProps)
+                .filter(([_, value]) => value === true)
+                .map(([key]) => filterMap[key])
+                .filter(Boolean);
 
-        let cancelled = false;
-
-        async function fetchPage(pageNum) {
-            const path = pageNum === 1
-                ? feedUrl
-                : `${feedUrl}?${paginationParam}=${pageNum}`;
-
-            const res = await fetch(`${fetchOrigin}${path}`);
-            if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
-
-            const html = await res.text();
-            const doc = new DOMParser().parseFromString(html, "text/html");
-
-            const itemWrappers = doc.querySelectorAll(".data-row");
-
-            return Array.from(itemWrappers).map((wrapper) => {
-                const mainScript = wrapper.querySelector("script[data-post-item]");
-                if (!mainScript) return null;
-
-                let main;
-                try {
-                    main = JSON.parse(mainScript.textContent);
-                    for (const key in main) {
-                        if (typeof main[key] === 'string') {
-                            main[key] = decodeEntities(main[key]);
-                        }
-                    }
-                } catch {
-                    return null;
-                }
-
-                const parseSlugs = (selector) =>
-                    Array.from(wrapper.querySelectorAll(selector))
-                        .map((s) => {
-                            try { return JSON.parse(s.textContent).slug; }
-                            catch { return null; }
-                        })
-                        .filter(Boolean);
-
-                return {
-                    ...main,
-                    verticals: parseSlugs("script[data-vertical]"),
-                    types: parseSlugs("script[data-type]"),
-                    topics: parseSlugs("script[data-topic]"),
-                };
-            }).filter(Boolean);
-        }
-
-        async function fetchResources() {
-            setLoading(true);
-            setError(null);
-
-            const matchesFilters = (item) => {
-                const check = (vals, set) => {
-                    if (set.size === 0) return true;
-                    return (vals ?? []).some((slug) => set.has(slug));
-                };
-                return (
-                    check(item.verticals, activeFilters.verticals) &&
-                    check(item.types, activeFilters.types) &&
-                    check(item.topics, activeFilters.topics)
-                );
+            const filtersByGroup = {
+                vertical: activeFilters.filter((f) => f.group === "vertical"),
+                type: activeFilters.filter((f) => f.group === "type"),
+                topic: activeFilters.filter((f) => f.group === "topic"),
             };
 
+            return items.filter((resource) => {
+                const matchGroup = (filters, items) => {
+                    if (!filters.length) return true;
+
+                    return filters.some((filter) =>
+                        items?.some((item) => item.name === filter.name)
+                    );
+                };
+
+                return (
+                    matchGroup(filtersByGroup.vertical, resource.verticals) &&
+                    matchGroup(filtersByGroup.type, resource.types) &&
+                    matchGroup(filtersByGroup.topic, resource.topics)
+                );
+            });
+        }
+
+        async function loadData() {
+            setLoading(true);
+
             try {
-                let results = [];
-                let page = 1;
-                const MAX_PAGES = 30;
+                let endpoint = "";
+                let setter = null;
 
-                while (results.length < 4 && page <= MAX_PAGES) {
-                    const items = await fetchPage(page);
-                    if (items.length === 0) break;
-
-                    results = results.concat(items.filter(matchesFilters));
-                    page++;
-
-                    if (cancelled) return;
+                if (dataSource === "Resources") {
+                    endpoint = "https://symphonyai-resources.jjimenez-3e7.workers.dev/resources";
+                    setter = setResources;
+                } else if (dataSource === "News") {
+                    endpoint = "https://symphonyai-resources.jjimenez-3e7.workers.dev/news";
+                    setter = setNews;
+                } else if (dataSource === "Events & Webinars") {
+                    endpoint = "https://symphonyai-resources.jjimenez-3e7.workers.dev/webinar-events";
+                    setter = setWebinarEvents;
                 }
 
-                if (!cancelled) setResources(results.slice(0, 4));
-            } catch (err) {
-                if (!cancelled) setError(err.message);
+                if (!endpoint || !setter) return;
+
+                const res = await fetch(endpoint);
+                const data = await res.json();
+
+                const sortedItems = [...(data.items || [])].sort(
+                    (a, b) => new Date(b.date) - new Date(a.date)
+                );
+
+                setter(getFilteredItems(sortedItems).slice(0, 4));
+            } catch (error) {
+                console.error(`Failed to load ${dataSource}:`, error);
             } finally {
-                if (!cancelled) setLoading(false);
+                setLoading(false);
             }
         }
 
-        fetchResources();
+        loadData();
+    }, [dataSource, ...Object.values(filterProps)]);
 
-        return () => {
-            cancelled = true;
-        };
-    }, [dataSource, feedUrl, paginationParam, filterKey]);
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
-    if (loading) return <div class="layout-state loading">Loading…</div>;
-    if (error) return <div class="layout-state error">Error: {error}</div>;
-    if (!resources.length) return <div class="layout-state empty">No resources found.</div>;
+    if (dataSource === "Resources" && !resources.length) {
+        return (
+            <div className="layout-state empty">
+                No resources found.
+            </div>
+        );
+    }
 
-    const featuredResource = resources[0];
-    const secondaryResources = resources.slice(1);
+    if (dataSource === "News" && !news.length) {
+        return (
+            <div className="layout-state empty">
+                No news found.
+            </div>
+        );
+    }
+
+    if (dataSource === "Events & Webinars" && !webinarEvents.length) {
+        return (
+            <div className="layout-state empty">
+                No webinar & events found.
+            </div>
+        );
+    }
+
+    const items = dataSource === "Resources" ? resources : dataSource === "News" ? news : webinarEvents;
+
+    const featuredItem = items[0];
+    const secondaryItems = items.slice(1);
 
     return (
         <div className="lnre-cards">
-            {featuredResource && (
+            {featuredItem && (
                 <div className="lnre-card-outer is-single">
                     <ResourceCard
                         type={dataSource}
-                        resource={featuredResource}
+                        key={featuredItem.id}
+                        resource={featuredItem}
                         size="big"
-                        getLabelsBySlugs={getLabelsBySlugs}
                     />
                 </div>
             )}
 
-            {secondaryResources.length > 0 && (
+            {secondaryItems.length > 0 && (
                 <div className="lnre-card-outer is-multiple">
-                    {secondaryResources.map((resource) => (
+                    {secondaryItems.map((item) => (
                         <ResourceCard
                             type={dataSource}
-                            key={resource.id}
-                            resource={resource}
+                            key={item.id}
+                            resource={item}
                             size="small"
-                            getLabelsBySlugs={getLabelsBySlugs}
                         />
                     ))}
                 </div>

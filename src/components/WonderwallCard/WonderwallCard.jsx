@@ -46,7 +46,7 @@ export const WonderwallCard = ({
       href={href}
       target={pdfFile?.href && pdfFile.href !== "#" ? "_blank" : "_self"}
       rel={pdfFile?.href && pdfFile.href !== "#" ? "noopener noreferrer" : undefined}
-      className="relative"
+      className="block relative"
     >
       <div className={`wonderwall-card ${theme === 'Light' ? '' : 'dark'}`} style={{backgroundColor: colors[cardColor]}}>
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>

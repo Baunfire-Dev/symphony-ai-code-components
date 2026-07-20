@@ -10,42 +10,6 @@ export default declareComponent(ResourcesGridCards, {
         ssr: false,
     },
     props: {
-        resourcesFeedUrl: props.Text({
-            name: "Resources Feed URL",
-            defaultValue: "/data/resources",
-            group: 'Tokens',
-            tooltip: 'Critical prop — only edit if you know what you are doing.',
-        }),
-        resourcesPaginationParam: props.Text({
-            name: "Resources Pagination Param",
-            defaultValue: "9f1b8a28",
-            group: 'Tokens',
-            tooltip: 'Critical prop — only edit if you know what you are doing.',
-        }),
-        newsFeedUrl: props.Text({
-            name: "News Feed URL",
-            defaultValue: "/data/news",
-            group: 'Tokens',
-            tooltip: 'Critical prop — only edit if you know what you are doing.',
-        }),
-        newsPaginationParam: props.Text({
-            name: "News Pagination Param",
-            defaultValue: "14d9ee46",
-            group: 'Tokens',
-            tooltip: 'Critical prop — only edit if you know what you are doing.',
-        }),
-        eventsFeedUrl: props.Text({
-            name: "Webinars & Events Feed URL",
-            defaultValue: "/data/webinars-events",
-            group: 'Tokens',
-            tooltip: 'Critical prop — only edit if you know what you are doing.',
-        }),
-        eventsPaginationParam: props.Text({
-            name: "Webinars & Events Pagination Param",
-            defaultValue: "dc921e64",
-            group: 'Tokens',
-            tooltip: 'Critical prop — only edit if you know what you are doing.',
-        }),
         dataSource: props.Variant({
             name: "Data Source",
             defaultValue: "Resources",

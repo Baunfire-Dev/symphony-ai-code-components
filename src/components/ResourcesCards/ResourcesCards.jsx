@@ -16,7 +16,7 @@ function ResourceCard({ resource, size = "small" }) {
     const date = new Date(resource.date);
     const formattedDate = `${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`;
 
-    const href = resource.newResourceUrl || resource.externalUrl || `/resources/${resource.slug}`;
+    const href = resource.newResourceUrl || resource.externalUrl || resource.slug;
     const isExternal = !resource.newResourceUrl && !!resource.externalUrl;
 
     return (
@@ -151,7 +151,7 @@ export default function ResourcesCards(props) {
         async function loadResources() {
             try {
                 const res = await fetch(
-                    "https://symphonyai-resources.jjimenez-3e7.workers.dev/"
+                    "https://symphonyai-resources.jjimenez-3e7.workers.dev/resources"
                 );
 
                 const data = await res.json();
