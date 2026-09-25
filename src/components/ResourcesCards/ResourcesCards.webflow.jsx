@@ -16,7 +16,7 @@ export default declareComponent(ResourcesCards, {
             min: 2,
             max: 100,
             decimals: 0
-        }),
+        }), 
         vertical_ai: props.Boolean({ 
             name: "AI", 
             defaultValue: false,
@@ -119,11 +119,6 @@ export default declareComponent(ResourcesCards, {
         }),
         type_itOperation: props.Boolean({ 
             name: "IT operation", 
-            defaultValue: false,
-            group: "Type"
-        }),
-        type_mediaCoverage: props.Boolean({ 
-            name: "Media Coverage", 
             defaultValue: false,
             group: "Type"
         }),

@@ -8,7 +8,7 @@ export const Background = ({ isVisible = true, type = "Image", image, videoURL }
       )}
 
       {type === "Video" && videoURL && (
-        <video autoPlay muted loop playsInline>
+        <video autoPlay muted loop playsInline preload="auto">
           <source src={videoURL} type="video/mp4" />
         </video>
       )}

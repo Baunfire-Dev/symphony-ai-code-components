@@ -14,6 +14,13 @@ export default declareComponent(ResourcesGridCards, {
             name: "Data Source",
             defaultValue: "Resources",
             options: ["Resources", "Events & Webinars", "News"],
+        }),
+        count: props.Number({
+            name: "Number of Posts",
+            defaultValue: 4,
+            min: 2,
+            max: 100,
+            decimals: 0
         }), 
         vertical_ai: props.Boolean({ 
             name: "AI", 
@@ -117,11 +124,6 @@ export default declareComponent(ResourcesGridCards, {
         }),
         type_itOperation: props.Boolean({ 
             name: "IT operation", 
-            defaultValue: false,
-            group: "Type"
-        }),
-        type_mediaCoverage: props.Boolean({ 
-            name: "Media Coverage", 
             defaultValue: false,
             group: "Type"
         }),

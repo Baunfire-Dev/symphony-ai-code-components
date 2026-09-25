@@ -6,11 +6,12 @@ export const SV2FullWidthVideo = ({isVisible, videoURL}) => {
   return (
     <video
       className={`w-full aspect-[16/9] object-cover ${!isVisible ? 'hidden' : ''}`}
+      src={videoURL}
       autoPlay
       muted
+      loop
       playsInline
     >
-      <source src={videoURL} type="video/mp4" />
     </video>
   );
 };
