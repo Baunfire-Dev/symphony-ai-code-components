@@ -7,7 +7,6 @@
 // Cloudflare Worker attaches to every resource's verticals/types/topics.
 const FILTER_MAP = {
     vertical_ai: { id: "69f27af4a7bf22fed57bf4df", name: "AI", type: "vertical" },
-    vertical_enterpriseIt: { id: "69f27b3b6354c8cd6d6b6c29", name: "Enterprise IT", type: "vertical" },
     vertical_financialServices: { id: "69f27b4c0f299366b2920bd2", name: "Financial Services", type: "vertical" },
     vertical_industrial: { id: "69f27b8d7243f353f6c6f41f", name: "Industrial", type: "vertical" },
     vertical_media: { id: "69f27b9a831502744ecfa335", name: "Media", type: "vertical" },

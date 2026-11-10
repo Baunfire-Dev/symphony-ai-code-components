@@ -27,11 +27,6 @@ export default declareComponent(ResourcesGridCards, {
             defaultValue: false,
             group: "Vertical"
         }),
-        vertical_enterpriseIt: props.Boolean({ 
-            name: "Enterprise IT", 
-            defaultValue: false,
-            group: "Vertical"
-        }),
         vertical_financialServices: props.Boolean({ 
             name: "Financial Services", 
             defaultValue: false,
